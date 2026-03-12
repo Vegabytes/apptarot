@@ -1,0 +1,72 @@
+<ion-header class="header-gradient">
+  <ion-toolbar>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="bntShare()">
+        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      </ion-button>
+      <ion-button (click)="openMenu()">
+        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="md" class="text-header" slot="start">Horóscopo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="box-img-horoscopo" *ngIf="horoscopeActive">
+    <img [src]="horoscopeActive.zodiacsign.image" alt="" />
+    <span>{{horoscopeActive.zodiacsign.name}}</span>
+  </div>
+
+  <ion-row>
+    <ion-col size="10" offset="1">
+      <div class="box-detalle" *ngIf="horoscopeActive">
+        <div class="box-fecha">
+          <ion-text>{{formattedDate}}</ion-text>
+        </div>
+        <div class="text-detalle" [innerHTML]="horoscopeActive.description">
+
+
+        </div>
+        <ion-col size="10" offset="1">
+          <div class="box-elementos">
+            <span>Elementos de suerte</span>
+          </div>
+
+        </ion-col>
+        <ion-col size="10" offset="1" class="col-elementos">
+          <div class="box-num">
+            <div>{{horoscopeActive.numberhoroscope}}</div>
+            <div>Número</div>
+          </div>
+         <div class="box-color">
+          <div class="circulo">
+            <div style="width: 55px;
+          height: 55px;
+          border-radius: 100%;
+          background: {{horoscopeActive.colorhexa}};"></div>
+          </div>
+          <div>Color</div>
+         </div>
+        </ion-col>
+
+        <ion-col size="10" offset="1">
+          <div class="box-elementos">
+            <span>Mayor compatibilidad</span>
+          </div>
+
+          <div class="box-compatibilidad">
+            <div class="horoscopo-foot" *ngFor="let s of horoscopeActive.compatible_signs">
+              <img [src]="s.image" alt="" />
+              <span>{{s.name}}</span>
+            </div>
+          </div>
+
+        </ion-col>
+
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

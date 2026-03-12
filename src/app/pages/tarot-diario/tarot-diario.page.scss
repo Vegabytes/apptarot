@@ -1,0 +1,38 @@
+.titulo{
+    font-family: "Ubuntu";
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.custom-card {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    padding: 20px;
+    height: 120px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+  
+  .custom-card> img {
+    width: 80px; 
+    height: auto;
+  }
+  
+  ion-card-header {
+    padding: 16px; 
+  }
+  
+  ion-card-title {
+    font-size: 35px; 
+    color: #fff; 
+    font-family: "Ubuntu";
+
+  }
+  

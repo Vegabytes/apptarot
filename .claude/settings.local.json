@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"ifirestockmarket\\\\|firebase\\\\|api_key\\\\|apiKey\\\\|Authorization\\\\|Bearer\" \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master/src\" --include=\"*.ts\" --include=\"*.js\" 2>/dev/null | head -20)",
+      "Bash(find \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" -name \".env*\" -o -name \"*secret*\" -o -name \"*key*\" 2>/dev/null | grep -v node_modules | grep -v \".git\")",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng serve --open 2>&1 | tail -20)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4200 2>/dev/null || echo \"NOT_READY\")",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng add @angular/pwa --skip-confirmation 2>&1 | tail -20)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npm install @angular/service-worker@18 2>&1 | tail -5)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npm install @angular/service-worker@18 --legacy-peer-deps 2>&1 | tail -5)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npm install --save-dev sharp-cli 2>&1 | tail -3)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npm install --save-dev sharp-cli --legacy-peer-deps 2>&1 | tail -3)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -15)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}

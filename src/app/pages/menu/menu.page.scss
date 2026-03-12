@@ -1,0 +1,61 @@
+/*.box-container{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 30px;
+
+}*/
+
+.box-container {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    /* Respeta el notch en iPhone y mantiene 30px en Android/iPhone SE */
+    margin-top: calc(var(--ion-safe-area-top) + 30px);
+}
+  .ico-caret{
+    margin-left: 5px;
+    margin-right: 10px;
+}
+  .gradient-button-box {
+    --background: none;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 50px;
+    padding: 15px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 80%;
+    text-align: center;
+    font-family: "Ubuntu";
+    font-size: 18px;
+    background-image: linear-gradient(45deg, #967cab, #7e73ab, #646cab);
+
+}
+
+
+.text-title{
+    color: white;
+    font-family: "Ubuntu";
+    font-size: 25px;
+
+}
+.box-img {
+    height: 210px;
+}
+
+
+.box-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.box-title{
+    text-align: center;
+    margin-top: -70px;
+    padding: 10px 20px 0 12px;
+}

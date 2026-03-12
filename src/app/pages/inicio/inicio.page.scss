@@ -1,0 +1,17 @@
+.carta {
+    position: absolute;
+    top: 50%;  /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el logo al centro */
+    z-index: 10; /* Asegura que el logo esté por encima del fondo */
+  }
+  
+  .img-carta {
+    width: 100%; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantiene la proporción del logo */
+  }
+  .icon-entrar{
+    width: 30px;
+    margin-left: 15px;
+  }
+

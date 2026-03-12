@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tarot y Rituales María FF</string>
+    <string name="title_activity_main">Tarot y Rituales María FF</string>
+    <string name="package_name">com.app.tarotiav2</string>
+    <string name="custom_url_scheme">com.app.tarotiav2</string>
+</resources>

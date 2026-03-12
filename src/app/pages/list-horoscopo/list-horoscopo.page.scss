@@ -1,0 +1,92 @@
+
+.custom-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+}
+
+  .custom-card> img {
+    width: 70px;
+    height: auto;
+  }
+
+  ion-card-header {
+    padding: 16px;
+  }
+
+  ion-text {
+    font-size: 1rem;
+    color: #fff;
+    font-family: "Ubuntu";
+    margin-top: 0.2rem;
+  }
+
+  .box-list-horoscopo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 3rem;
+    align-items: center;
+  }
+
+  .ico-llamar{
+      width: 40px;
+      margin-left: 10px;
+  }
+
+  .text-small{
+    color: white;
+    font-size: 9px;
+    font-family: "Ubuntu";
+    width: 100%;
+    display: flex;
+    margin-top: 0.5rem;
+  }
+
+  ion-row{
+    height: auto;
+  }
+  .button-container-result{
+    bottom: 0;
+    margin-top: 2rem;
+  }
+
+  @media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+
+    .custom-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 23%;
+        margin: 15px;
+    }
+
+    ion-text{
+        font-size: 0.7rem;
+        color: #fff;
+        font-family: "Ubuntu";
+        margin-top: 5px;
+    }
+    .box-list-horoscopo {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 3rem;
+        align-items: center;
+    }
+}

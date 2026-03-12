@@ -1,0 +1,187 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+// @import "@ionic/angular/css/palettes/dark.system.css";
+
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('assets/fonts/Ubuntu-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+ion-content {
+    --background: none;
+    background-image: url('assets/img/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.logo-container {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 60%;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 95%;
+
+}
+ion-row{
+    height: 100%;
+}
+.button-container-result {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.gradient-button-result {
+    --background: none;
+    background-image: linear-gradient(45deg, #967cab, #7e73ab, #646cab);
+    color: white;
+    border-radius: 50px;
+    padding: 5px 5px;
+    font-weight: bold;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+    text-align: center;
+    font-family: "Ubuntu";
+    font-size: 18px;
+    text-transform: uppercase;
+    height: 50%;
+}
+
+.gradient-button {
+    --background: none;
+    background-image: linear-gradient(45deg, #967cab, #7e73ab, #646cab);
+    color: white;
+    border-radius: 50px;
+    padding: 5px 5px;
+    font-weight: bold;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 80%;
+    text-align: center;
+    font-family: "Ubuntu";
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+
+
+.centrado {
+    display: grid;
+    justify-content: center;
+}
+
+
+
+/*.ios ion-header ion-toolbar {
+    --background:  linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+    background:  linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+
+  box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.4),  0 -10px 20px rgba(0, 242, 254, 0.3);
+
+  filter: drop-shadow(0 -10px 10px rgba(255, 255, 255, 0.5));
+  height: 75px;
+  display: flex;
+  align-items: center;
+}*/
+
+.ios ion-header ion-toolbar {
+    --background: linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+    background: linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+    box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.4), 0 -10px 20px rgba(0, 242, 254, 0.3);
+    filter: drop-shadow(0 -10px 10px rgba(255, 255, 255, 0.5));
+
+    /* CAMBIOS AQUÍ: */
+    height: auto; /* Quitamos los 75px fijos */
+    min-height: 44px; /* Altura mínima estándar de Apple */
+    padding-top: var(--ion-safe-area-top); /* Esto añade el espacio del notch solo en iOS */
+    display: flex;
+    align-items: center;
+}
+
+.md ion-header ion-toolbar {
+    --background:  linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+    background:  linear-gradient(45deg, #3b4463, #444e72, #3e4768);
+
+  box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.4), 0 -10px 20px rgba(0, 242, 254, 0.3);
+
+  filter: drop-shadow(0 -10px 10px rgba(255, 255, 255, 0.5));
+  height: 70px;
+  display: flex;
+  align-items: center;
+
+}
+
+ion-back-button {
+    --color: white;
+    --background: transparent;
+    --icon-size: 24px;
+  }
+
+  .text-header{
+    color: white;
+    font-family: "Ubuntu";
+    font-size: 18px;
+  }
+
+  ion-content {
+    --overflow: auto;
+  }

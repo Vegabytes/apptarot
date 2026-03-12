@@ -1,0 +1,57 @@
+<ion-header class="header-gradient">
+  <ion-toolbar>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="bntShare()">
+        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      </ion-button>
+      <ion-button (click)="openMenu()">
+        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="md" class="text-header" slot="start">
+     Tarot diario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+<ion-row>
+  <ion-col size="10" offset="1">
+    <div class="titulo">
+      <span>Tarot {{subject}}</span>
+    </div>
+
+    <div class="subtitulo">
+      <span>Escoge <span style="font-size: 30px;">3</span> cartas</span>
+    </div>
+
+    <div class="box-card">
+
+      <ion-card class="card" *ngFor="let c of cards" (click)="openCard(c)"
+        [ngClass]="{'flipped': c.open}">
+        <!-- Reverso de la carta -->
+        <img src="assets/img/cartas/0.png" alt="Reverso" class="carta-reverso" />
+        <!-- Frente de la carta -->
+        <img [src]="c.image" alt="Frente" class="carta-activa" />
+      </ion-card>
+
+
+      <!-- <div class="card" *ngFor="let c of cards" (click)="openCard(c)">
+        <img [src]="c.open? c.image : '../../../assets/img/cartas/0.png' " alt="Menu" style="" />
+        <img src="../../../assets/img/cartas/1.webp" class="carta-activa" alt="Menu" style="" />
+      </div> -->
+    </div>
+    <div class="button-container-result">
+      <ion-button class="gradient-button-result" (click)="irResultados()" mode="md">
+        <img src="../../../assets/img/icono_resultados.png" alt="Logo" class="icon-ver">
+        VER RESULTADO
+
+      </ion-button>
+    </div>
+
+  </ion-col>
+</ion-row>
+</ion-content>

@@ -1,0 +1,131 @@
+<ion-header class="header-gradient">
+  <ion-toolbar>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="bntShare()">
+        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      </ion-button>
+      <ion-button (click)="openMenu()">
+        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="md" class="text-header" slot="start">
+     Tarot Sí o No
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+<ion-row>
+  <ion-col size="10" offset="1" *ngIf="!loadinfo">
+    <div class="box-card" *ngIf="card">
+      <div class="carta" >
+        <img [src]="card.image" alt="Menu" style="" width="" height="" />
+      </div>
+      <div class="detalle">
+        <div class="title">{{card.name}}</div>
+        <div class="parrafo">
+          <p *ngFor="let s of responseConsult">
+            {{s}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-col>
+
+  <ion-col size="10" offset="1" *ngIf="!loadinfo">
+    <ion-list class="transparent-list">
+      <ion-text class="text-recomendacion">
+        Te recomiendo estos rituales para tu caso:
+      </ion-text>
+      <div class="centrado">
+        <div class="box-title">
+          <ion-text class="text-title">
+            DINERO:
+          </ion-text>
+        </div>
+      </div>
+      <div>
+        <ion-item *ngFor="let video of videos" class="transparent-item">
+          <ion-button color="tertiary" (click)="openYouTubeVideo(video.url)">
+            <ion-icon slot="start" name="logo-youtube"></ion-icon>
+            {{ video.title }}
+          </ion-button>
+        </ion-item>
+      </div>
+
+      <div class="centrado">
+        <div class="box-title">
+          <ion-text class="text-title">
+            SALUD:
+          </ion-text>
+        </div>
+      </div>
+      <div>
+        <ion-item *ngFor="let videosalud of videossalud" class="transparent-item">
+          <ion-button color="tertiary" (click)="openYouTubeVideo(videosalud.url)">
+            <ion-icon slot="start" name="logo-youtube"></ion-icon>
+            {{ videosalud.title }}
+          </ion-button>
+        </ion-item>
+      </div>
+
+      <div class="centrado" >
+        <div class="box-title">
+          <ion-text class="text-title">
+            AMOR:
+          </ion-text>
+        </div>
+      </div>
+      <div >
+        <ion-item *ngFor="let videoamor of videosamor" class="transparent-item">
+          <ion-button color="tertiary" (click)="openYouTubeVideo(videoamor.url)">
+            <ion-icon slot="start" name="logo-youtube"></ion-icon>
+            {{ videoamor.title }}
+          </ion-button>
+        </ion-item>
+      </div>
+
+      <div class="centrado" >
+        <div class="box-title">
+          <ion-text class="text-title">
+            TRABAJO:
+          </ion-text>
+        </div>
+      </div>
+      <div >
+        <ion-item *ngFor="let videotrabajo of videostrabajo" class="transparent-item">
+          <ion-button color="tertiary" (click)="openYouTubeVideo(videotrabajo.url)">
+            <ion-icon slot="start" name="logo-youtube"></ion-icon>
+            {{ videotrabajo.title }}
+          </ion-button>
+        </ion-item>
+      </div>
+
+    </ion-list>
+  </ion-col>
+  <ion-col size="10" offset="1" class="mb-2" *ngIf="!loadinfo">
+    <div class="button-container-result">
+      <ion-button class="gradient-button-result" mode="md" (click)="irPaginaTarot()">
+       <div>
+        <div> Si quieres un trabajo personalizado pincha aquí</div>
+        <!-- <div class="text-small">(y te lleva al apartado de Trabajos Personalizados Bajo Pago)</div> -->
+       </div>
+      </ion-button>
+    </div>
+  </ion-col>
+  <ion-col size="10" offset="1" *ngIf="!loadinfo">
+    <div class="button-container-result">
+      <ion-button class="gradient-button-result" mode="md" (click)="makeCall('+34910209955')">
+        <img src="../../../assets/img/icono_tel.png" alt="Logo" class="ico-llamar">
+       <div>
+        <div> LLAMA AHORA  A MI LÍNEA</div>
+        <div class="text-small">Y ESCUCHA LA LECTURA COMPLETA</div>
+       </div>
+      </ion-button>
+    </div>
+  </ion-col>
+</ion-row>
+</ion-content>

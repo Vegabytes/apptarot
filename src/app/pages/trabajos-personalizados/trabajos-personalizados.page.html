@@ -1,0 +1,54 @@
+<ion-header class="header-gradient">
+  <ion-toolbar>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="bntShare()">
+        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      </ion-button>
+      <ion-button (click)="openMenu()">
+        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title mode="md" class="text-header" slot="start">
+      Trabajos personalizados
+     </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+ 
+
+  <ion-row>
+    <ion-col size="10" offset="1">
+      <div class="img-top">
+        <img src="../assets/img/marco_sup.png" alt="Menu" style="" />
+      </div>
+      <div class="titulo">
+        <span> Trabajos personalizados bajo pago</span>
+      </div>
+
+      <div class="parrafo">
+        <p>Si quieres un trabajo personal hecho por la gran Maestra María Fernández Fernández escribe a su ayudante
+          Elina.</p>
+      </div>
+      <div class="parrafo">
+        <p>Te recuerdo que estos trabajos tienen un coste que dependerá de cada caso, no son gratuitos.</p>
+      </div>
+      <div class="parrafo">
+        <p>Si quieres un trabajo gratuito puedes visitar su canal de YouTube: <b><a href=""> María Fernández Fernández</a></b></p>
+      </div>
+
+      <div>
+        <ion-button fill="clear" (click)="openWhatsApp()">
+          <img src="../../../assets/img/whatsapp.png" alt="">
+        </ion-button>
+      </div>
+
+      <div class="img-inf">
+        <img src="../assets/img/marco_inf.png" alt="Menu" style="" />
+      </div>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
