@@ -18,7 +18,9 @@
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -10)",
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | grep -i \"error\" | head -10)",
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -5)",
-      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | grep \"error NG\" | head -5)"
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | grep \"error NG\" | head -5)",
+      "Bash(find /c/Users/acast/Documents/apptarot-master-20260312T170545Z-3-001/apptarot-master/src/app/pages -name \"*.scss\" | xargs wc -l | tail -1)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -8)"
     ]
   }
 }

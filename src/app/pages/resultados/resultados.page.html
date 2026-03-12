@@ -19,7 +19,7 @@
 <ion-content [fullscreen]="true" role="main">
 
 <ion-row>
-  <ion-col size="10" offset="1" *ngIf="responseCard">
+  <ion-col size="10" offset="1" *ngIf="responseCard" aria-live="polite">
     <div class="box-card" *ngFor="let c of cards; trackBy: trackByCardId">
       <div class="carta">
         <img [src]="c.image" [alt]="'Carta de tarot: ' + c.name" width="100%" height="" loading="lazy" />

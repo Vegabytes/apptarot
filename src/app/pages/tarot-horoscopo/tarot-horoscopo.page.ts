@@ -61,6 +61,9 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter(){
+    if (this.horoscopeActive === undefined) {
+      this.initialLoad();
+    }
   }
 
   async initialLoad(){

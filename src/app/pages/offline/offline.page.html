@@ -4,5 +4,6 @@
     <h2 style="margin-bottom:16px;">Sin conexión a Internet</h2>
     <p style="margin-bottom:24px;color:#aaa;" aria-live="polite">Por favor, comprueba tu conexión e inténtalo de nuevo.</p>
     <ion-button (click)="retry()" mode="md">Reintentar</ion-button>
+    <p *ngIf="offlineMessage" style="margin-top:16px;color:#ff6b6b;" aria-live="assertive">{{ offlineMessage }}</p>
   </div>
 </ion-content>

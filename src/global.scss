@@ -201,3 +201,10 @@ ion-back-button {
   ion-content {
     --overflow: auto;
   }
+
+ion-card:focus-visible,
+div[tabindex="0"]:focus-visible,
+ion-button:focus-visible {
+  outline: 2px solid #7e73ab;
+  outline-offset: 2px;
+}

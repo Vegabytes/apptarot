@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { CardService } from 'src/app/api/card.service';
@@ -22,6 +22,7 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(private menuCtrl: MenuController,
+    private loadingController: LoadingController,
     private navCtrl: NavController,
     private cardService: CardService,
     private router: Router,
@@ -54,6 +55,14 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
 
   async initialLoad(){
     this.errorMsg = '';
+
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      spinner: 'circles',
+    });
+
+    await loading.present();
+
     this.cardService.getCardsGame().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: ICard[])=>{
         this.cards = response;
@@ -62,7 +71,11 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
           return ele;
         })
       },
-      error: (error) => {
+      complete: async () => {
+        await loading.dismiss();
+      },
+      error: async (error) => {
+        await loading.dismiss();
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
     })

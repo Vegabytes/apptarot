@@ -32,7 +32,7 @@
 
       <ion-card class="card" *ngFor="let c of cards; trackBy: trackByCardId" (click)="openCard(c)"
         [ngClass]="{'flipped': c.open}" role="button" tabindex="0" (keydown.enter)="openCard(c)" [attr.aria-label]="c.open ? 'Carta ' + c.name + ' seleccionada' : 'Seleccionar carta'">
-        <img src="assets/img/cartas/0.png" alt="Reverso de carta de tarot" class="carta-reverso" loading="lazy" />
+        <img src="assets/img/cartas/0.png" alt="Reverso de carta de tarot" class="carta-reverso" loading="eager" />
         <img [src]="c.image" [alt]="'Carta de tarot: ' + (c.name || 'sin revelar')" class="carta-activa" loading="lazy" />
       </ion-card>
 

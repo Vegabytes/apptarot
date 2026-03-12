@@ -19,7 +19,7 @@
 <ion-content [fullscreen]="true" role="main">
 
 <ion-row>
-  <ion-col size="10" offset="1" *ngIf="!loadinfo">
+  <ion-col size="10" offset="1" *ngIf="!loadinfo" aria-live="polite">
     <div class="box-card" *ngIf="card">
       <div class="carta">
         <img [src]="card.image" [alt]="'Carta de tarot: ' + card.name" width="" height="" loading="lazy" />

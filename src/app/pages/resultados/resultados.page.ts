@@ -182,8 +182,8 @@ export class ResultadosPage implements OnInit, OnDestroy {
   }
 
   makeCall(phoneNumber: string) {
-    const telUrl = `tel:${phoneNumber}`;
-    window.open(telUrl, '_system');
+    if (!/^\+?\d{7,15}$/.test(phoneNumber)) return;
+    window.open(`tel:${phoneNumber}`, '_system');
   }
 
 
