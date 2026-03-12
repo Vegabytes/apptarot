@@ -3,11 +3,11 @@
     <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
     <ion-buttons slot="end">
 
-      <ion-button (click)="bntShare()">
-        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      <ion-button (click)="bntShare()" aria-label="Compartir">
+        <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()">
-        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      <ion-button (click)="openMenu()" aria-label="Menú">
+        <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
     <ion-title mode="md" class="text-header" slot="start">Horóscopo</ion-title>
@@ -16,7 +16,7 @@
 
 <ion-content [fullscreen]="true">
   <div class="box-img-horoscopo" *ngIf="horoscopeActive">
-    <img [src]="horoscopeActive.zodiacsign.image" alt="" />
+    <img [src]="horoscopeActive.zodiacsign.image" alt="Signo del zodiaco" />
     <span>{{horoscopeActive.zodiacsign.name}}</span>
   </div>
 
@@ -58,14 +58,20 @@
           </div>
 
           <div class="box-compatibilidad">
-            <div class="horoscopo-foot" *ngFor="let s of horoscopeActive.compatible_signs">
-              <img [src]="s.image" alt="" />
+            <div class="horoscopo-foot" *ngFor="let s of horoscopeActive.compatible_signs; trackBy: trackBySignId">
+              <img [src]="s.image" alt="Signo compatible" />
               <span>{{s.name}}</span>
             </div>
           </div>
 
         </ion-col>
 
+      </div>
+    </ion-col>
+    <ion-col size="10" offset="1">
+      <div *ngIf="errorMsg" style="text-align: center; padding: 20px; color: #ff6b6b;">
+        <p>{{ errorMsg }}</p>
+        <ion-button fill="outline" size="small" (click)="retry()">Reintentar</ion-button>
       </div>
     </ion-col>
   </ion-row>

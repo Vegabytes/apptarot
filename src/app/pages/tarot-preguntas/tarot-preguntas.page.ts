@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationExtras } from "@angular/router";
 import { ICard } from 'src/app/interfaces/card.interface';
 import { CardService } from 'src/app/api/card.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tarot-preguntas',
   templateUrl: './tarot-preguntas.page.html',
   styleUrls: ['./tarot-preguntas.page.scss'],
 })
-export class TarotPreguntasPage implements OnInit {
+export class TarotPreguntasPage implements OnInit, OnDestroy {
 
   cards: ICard[] = [];
+  errorMsg = '';
+
+  private destroy$ = new Subject<void>();
 
   constructor(private router: Router,
     private menuCtrl: MenuController,
@@ -27,18 +32,38 @@ export class TarotPreguntasPage implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ionViewDidEnter(){
     this.initialLoad();
   }
 
   async initialLoad(){
-    this.cardService.getCardsYesOrNo().subscribe((response: ICard[])=>{
-      this.cards = response;
-      this.cards = this.cards.map((ele)=>{
-        ele.open = false;
-        return ele;
-      })
+    this.errorMsg = '';
+    this.cardService.getCardsYesOrNo().pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response: ICard[])=>{
+        this.cards = response;
+        this.cards = this.cards.map((ele)=>{
+          ele.open = false;
+          return ele;
+        })
+      },
+      error: (error) => {
+        this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
+      }
     })
+  }
+
+  retry() {
+    this.errorMsg = '';
+    this.initialLoad();
+  }
+
+  trackByCardId(index: number, item: ICard): number {
+    return item.id;
   }
 
   irDetalle() {
@@ -81,7 +106,6 @@ export class TarotPreguntasPage implements OnInit {
           card: cardOpen,
         }
       };
-      //this.navCtrl.navigateForward('/resultados-chatgpt');
       this.router.navigate(["/resultados-chatgpt"], navigationExtras);
     }
   }

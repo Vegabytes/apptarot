@@ -3,11 +3,11 @@
     <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
     <ion-buttons slot="end">
 
-      <ion-button (click)="bntShare()">
-        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      <ion-button (click)="bntShare()" aria-label="Compartir">
+        <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()">
-        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      <ion-button (click)="openMenu()" aria-label="Menú">
+        <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
     <ion-title mode="md" class="text-header" slot="start">
@@ -22,7 +22,7 @@
   <ion-row>
     <ion-col size="10" offset="1">
       <div class="img-top">
-        <img src="../assets/img/marco_sup.png" alt="Menu" style="" />
+        <img src="../assets/img/marco_sup.png" alt="Marco decorativo superior" style="" />
       </div>
       <div class="titulo">
         <span> Trabajos personalizados bajo pago</span>
@@ -40,13 +40,13 @@
       </div>
 
       <div>
-        <ion-button fill="clear" (click)="openWhatsApp()">
-          <img src="../../../assets/img/whatsapp.png" alt="">
+        <ion-button fill="clear" (click)="openWhatsApp()" aria-label="Contactar por WhatsApp">
+          <img src="../../../assets/img/whatsapp.png" alt="Contactar por WhatsApp">
         </ion-button>
       </div>
 
       <div class="img-inf">
-        <img src="../assets/img/marco_inf.png" alt="Menu" style="" />
+        <img src="../assets/img/marco_inf.png" alt="Marco decorativo inferior" style="" />
       </div>
     </ion-col>
   </ion-row>

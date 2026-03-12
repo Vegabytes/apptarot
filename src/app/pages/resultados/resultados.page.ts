@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuController, LoadingController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
@@ -7,6 +7,9 @@ import { ICard, ICardAux } from 'src/app/interfaces/card.interface';
 import { CardService } from 'src/app/api/card.service';
 import { ResponseCard } from 'src/app/interfaces/responsegpt.interface';
 import { Browser } from '@capacitor/browser';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } from 'src/app/data/videos.data';
 
 
 @Component({
@@ -14,7 +17,7 @@ import { Browser } from '@capacitor/browser';
   templateUrl: './resultados.page.html',
   styleUrls: ['./resultados.page.scss'],
 })
-export class ResultadosPage implements OnInit {
+export class ResultadosPage implements OnInit, OnDestroy {
 
   cards: ICard[]        = [];
   cardsShow: ICardAux[] = [];
@@ -22,39 +25,14 @@ export class ResultadosPage implements OnInit {
   responseCard: ResponseCard|undefined;
   loadinfo: boolean = true;
   resumen: string[] = [];
+  errorMsg = '';
 
-  videos = [
-    { title: 'RITUAL DE ABUNDANCIA ¡¡ATRAE DINERO Y TRABAJO A TU VIDA!!', url: 'https://youtu.be/Gm5aDjdBKOg' },
-    { title: 'HOY TENDRÁS DINERO!! DE INMEDIATO. ES INCREIBLE', url: 'https://youtu.be/AlhwR5RXdv0' },
-    { title: 'NO ME CABE TANTO DINERO EN MI CARTERA DESDE QUE HICE ESTO!!!!!', url: 'https://youtu.be/_waE7Gj_wtM' },
-    { title: 'PARA QUE TE DE MUCHO DINERO', url: 'https://youtu.be/dz14W44hhN4' },
-    { title: 'Una gota AQUÍ atrae DINERO en minutos!!!', url: 'https://youtu.be/QRgcXBMf5Ww' },
-  ];
+  videos: VideoItem[] = VIDEOS_DINERO;
+  videossalud: VideoItem[] = VIDEOS_SALUD;
+  videosamor: VideoItem[] = VIDEOS_AMOR;
+  videostrabajo: VideoItem[] = VIDEOS_TRABAJO;
 
-  videossalud = [
-    { title: 'PEGA ESTO EN TU VENTANA Y NO TE FALTARÁ DE NADA EN TU VIDA: DINERO, ÉXITO, SALUD', url: 'https://youtu.be/oTtkaJ1Btjo' },
-    { title: 'LIMPIEZA CON HUEVO MUY EFECTIVA PARA CONSEGUIR AMARRES DE AMOR PODEROSOS', url: 'https://youtu.be/CrStE2yNmok' },
-    { title: 'BAÑO ABRECAMINOS PARA LIMPIAR NUESTRA ENERGÍA💦💦. MUY PURIFICANTE. HAZLO Y ¡¡¡NOTARÁS EL CAMBIO!!', url: 'https://youtu.be/8pHLY5Do5aI' },
-    { title: 'CORTA BRUJERÍA, MAL DE OJO, MALA VIBRA, CELOS, ENVIDIA, ENOJOS Y PROTECCIÓN CON AJOS', url: 'https://youtu.be/agoK_gIvRS0' },
-    { title: 'LIMPIEZA PARA ATRAER LAS BUENAS ENERGÍAS Y HACER AMARRES EFECTIVOS', url: 'https://youtu.be/rLZ-y3hqsPY' },
-  ];
-
-  videosamor = [
-    { title: 'Amarre poderoso y efectivo en menos de 2 horas', url: 'https://youtu.be/4TqTtqhKoNs' },
-    { title: 'AMARRE POTENTE DE VUDÚ. AMÁRRALO PARA SIEMPRE CON SÓLO SU FOTO', url: 'https://youtu.be/6gsXXRuF0K0' },
-    { title: 'AMARRE DE AMOR ETERNO CON PROTECCIÓN PARA QUE NADIE SE ENTROMETA. MUY PODEROSO', url: 'https://youtu.be/CInt8fQqfsw' },
-    { title: 'Vuélvelo loco. Amarre extra fuerte para que pierda la cabeza de amor por ti', url: 'https://youtu.be/nbz88N-c9Ps' },
-    { title: 'HECHIZO DE AMOR EN 24 HORAS MUY PODEROSO PARA DESESPERARLO', url: 'https://youtu.be/1wzi_qtCA3Q' },
-  ];
-
-  videostrabajo = [
-    { title: 'RITUAL DE ABUNDANCIA ¡¡ATRAE DINERO Y TRABAJO A TU VIDA!!', url: 'https://youtu.be/Gm5aDjdBKOg' },
-    { title: 'AMARRE PARA QUE TE DE DINERO Y TODO LO QUE QUIERAS', url: 'https://youtu.be/G19pbeaoqDo' },
-    { title: 'HAZ EL SAQUITO MÁGICO PARA ATRAER CLIENTES, DINERO Y CONSEGUIR TRABAJO. AMULETO-HECHIZO CON ARROZ', url: 'https://youtu.be/7MHr61MSurs' },
-    { title: 'ATRAE ABUNDANCIA Y PROSPERIDAD', url: 'https://youtu.be/gLhhd9KvTTI' },
-    { title: 'BAÑO ABRECAMINOS PARA LIMPIAR NUESTRA ENERGÍA💦💦. MUY PURIFICANTE. HAZLO Y ¡¡¡NOTARÁS EL CAMBIO!!', url: 'https://youtu.be/8pHLY5Do5aI' },
-  ]
-
+  private destroy$ = new Subject<void>();
 
   constructor(private menuCtrl: MenuController,
     private loadingController: LoadingController,
@@ -63,7 +41,7 @@ export class ResultadosPage implements OnInit {
     private route: ActivatedRoute,
     private cardService: CardService
   ) {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         let state = this.router.getCurrentNavigation()?.extras.state;
         if(state){
@@ -76,7 +54,6 @@ export class ResultadosPage implements OnInit {
 
 
   async openYouTubeVideo(url: string) {
-    //window.open(url, '_blank'); // Abre el video en una nueva pestaña o ventana
     await Browser.open({ url: url });
   }
 
@@ -85,13 +62,18 @@ export class ResultadosPage implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ionViewDidEnter(){
     this.initialLoad();
   }
 
   async initialLoad(){
 
-
+    this.errorMsg = '';
 
     if(this.subject && this.cards.length==3){
 
@@ -104,7 +86,7 @@ export class ResultadosPage implements OnInit {
 
       await loading.present();
 
-      this.cardService.responseGame(this.subject, this.cards).subscribe({
+      this.cardService.responseGame(this.subject, this.cards).pipe(takeUntil(this.destroy$)).subscribe({
         next: (response: ResponseCard)=>{
           this.responseCard = response;
           this.loadinfo     = false;
@@ -116,10 +98,28 @@ export class ResultadosPage implements OnInit {
         },
         error: async (error)=>{
           await loading.dismiss();
+          this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
         }
       })
     }
 
+  }
+
+  retry() {
+    this.errorMsg = '';
+    this.initialLoad();
+  }
+
+  trackByTitle(index: number, item: VideoItem): string {
+    return item.title;
+  }
+
+  trackByCardId(index: number, item: ICard): number {
+    return item.id;
+  }
+
+  trackByIndex(index: number): number {
+    return index;
   }
 
   buscarParrafosTexto(search: string): string[]{

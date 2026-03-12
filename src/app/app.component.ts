@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { register } from 'swiper/element/bundle';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { Browser } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
@@ -8,8 +8,9 @@ import { Location } from '@angular/common';
 import { App } from '@capacitor/app';
 import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import { Device } from '@capacitor/device';
+import { Router } from '@angular/router';
 
-import { SafeArea } from 'capacitor-plugin-safe-area'; // 👈 Nuevo
+import { SafeArea } from 'capacitor-plugin-safe-area';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
 
@@ -22,6 +23,8 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  private deferredPrompt: any;
+  private installPromptShown = false;
   public appPages = [
     { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
     { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
@@ -32,10 +35,17 @@ export class AppComponent {
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-  constructor( private navCtrl: NavController,  private platform: Platform,
-    private location: Location, ) {
-      this.initializeApp();
-
+  constructor(
+    private navCtrl: NavController,
+    private platform: Platform,
+    private location: Location,
+    private router: Router,
+    private ngZone: NgZone,
+    private toastController: ToastController,
+  ) {
+    this.initializeApp();
+    this.listenNetwork();
+    this.listenInstallPrompt();
   }
 
   // initializeBackButton() {
@@ -141,5 +151,55 @@ export class AppComponent {
 
   async irPolitica() {
     await Browser.open({ url: 'https://mariafernandeztarot.com/aviso-legal-y-politica-de-privacidad/' });
+  }
+
+  private listenNetwork() {
+    window.addEventListener('offline', () => {
+      this.ngZone.run(() => {
+        this.router.navigateByUrl('/offline');
+      });
+    });
+    window.addEventListener('online', () => {
+      this.ngZone.run(() => {
+        if (this.router.url === '/offline') {
+          this.router.navigateByUrl('/inicio');
+        }
+      });
+    });
+  }
+
+  private listenInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', (e: any) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      if (!this.installPromptShown) {
+        this.installPromptShown = true;
+        this.showInstallToast();
+      }
+    });
+  }
+
+  private async showInstallToast() {
+    const toast = await this.toastController.create({
+      message: '¿Quieres instalar la app?',
+      position: 'bottom',
+      duration: 8000,
+      buttons: [
+        {
+          text: 'Instalar',
+          handler: () => {
+            if (this.deferredPrompt) {
+              this.deferredPrompt.prompt();
+              this.deferredPrompt = null;
+            }
+          }
+        },
+        {
+          text: 'No',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
   }
 }

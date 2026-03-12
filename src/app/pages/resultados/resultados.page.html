@@ -3,11 +3,11 @@
     <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
     <ion-buttons slot="end">
 
-      <ion-button (click)="bntShare()">
-        <img src="../../../assets/img/icono_compartir.png" alt="Menu" style="width: 25px;" />
+      <ion-button (click)="bntShare()" aria-label="Compartir">
+        <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()">
-        <img src="../../../assets/img/icono_menu.png" alt="Menu" style="width: 30px; height: 25px;" />
+      <ion-button (click)="openMenu()" aria-label="Menú">
+        <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
     <ion-title mode="md" class="text-header" slot="start">
@@ -20,14 +20,14 @@
 
 <ion-row>
   <ion-col size="10" offset="1" *ngIf="responseCard">
-    <div class="box-card" *ngFor="let c of cards">
+    <div class="box-card" *ngFor="let c of cards; trackBy: trackByCardId">
       <div class="carta" >
-        <img [src]="c.image" alt="Menu" style="" width="100%" height="" />
+        <img [src]="c.image" alt="Carta de tarot" style="" width="100%" height="" />
       </div>
       <div class="detalle">
         <div class="title">{{c.name}}</div>
         <div class="parrafo">
-          <p *ngFor="let t of buscarParrafosTexto(c.name)">{{t}}</p>
+          <p *ngFor="let t of buscarParrafosTexto(c.name); trackBy: trackByIndex">{{t}}</p>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="centrado box-resumen">
       <div class="box-title">
         <ion-text class="text-title">
-          <p *ngFor="let r of resumen">{{r}}</p>
+          <p *ngFor="let r of resumen; trackBy: trackByIndex">{{r}}</p>
         </ion-text>
       </div>
     </div>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div *ngIf="subject=='Dinero'">
-        <ion-item *ngFor="let video of videos" class="transparent-item">
+        <ion-item *ngFor="let video of videos; trackBy: trackByTitle" class="transparent-item">
           <ion-button color="tertiary" (click)="openYouTubeVideo(video.url)">
             <ion-icon slot="start" name="logo-youtube"></ion-icon>
             {{ video.title }}
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div *ngIf="subject=='Salud'">
-        <ion-item *ngFor="let videosalud of videossalud" class="transparent-item">
+        <ion-item *ngFor="let videosalud of videossalud; trackBy: trackByTitle" class="transparent-item">
           <ion-button color="tertiary" (click)="openYouTubeVideo(videosalud.url)">
             <ion-icon slot="start" name="logo-youtube"></ion-icon>
             {{ videosalud.title }}
@@ -88,7 +88,7 @@
         </div>
       </div>
       <div *ngIf="subject=='Amor'">
-        <ion-item *ngFor="let videoamor of videosamor" class="transparent-item">
+        <ion-item *ngFor="let videoamor of videosamor; trackBy: trackByTitle" class="transparent-item">
           <ion-button color="tertiary" (click)="openYouTubeVideo(videoamor.url)">
             <ion-icon slot="start" name="logo-youtube"></ion-icon>
             {{ videoamor.title }}
@@ -104,7 +104,7 @@
         </div>
       </div>
       <div *ngIf="subject=='Trabajo'">
-        <ion-item *ngFor="let videotrabajo of videostrabajo" class="transparent-item">
+        <ion-item *ngFor="let videotrabajo of videostrabajo; trackBy: trackByTitle" class="transparent-item">
           <ion-button color="tertiary" (click)="openYouTubeVideo(videotrabajo.url)">
             <ion-icon slot="start" name="logo-youtube"></ion-icon>
             {{ videotrabajo.title }}
@@ -127,12 +127,18 @@
   <ion-col size="10" offset="1" *ngIf="!loadinfo">
     <div class="button-container-result">
       <ion-button class="gradient-button-result" mode="md" (click)="makeCall('+34910209955')">
-        <img src="../../../assets/img/icono_tel.png" alt="Logo" class="ico-llamar">
+        <img src="../../../assets/img/icono_tel.png" alt="Llamar" class="ico-llamar">
        <div>
         <div> LLAMA AHORA  A MI LÍNEA</div>
         <div class="text-small">Y ESCUCHA LA LECTURA COMPLETA</div>
        </div>
       </ion-button>
+    </div>
+  </ion-col>
+  <ion-col size="10" offset="1">
+    <div *ngIf="errorMsg" style="text-align: center; padding: 20px; color: #ff6b6b;">
+      <p>{{ errorMsg }}</p>
+      <ion-button fill="outline" size="small" (click)="retry()">Reintentar</ion-button>
     </div>
   </ion-col>
 </ion-row>

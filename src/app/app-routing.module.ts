@@ -63,6 +63,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/list-horoscopo/list-horoscopo.module').then( m => m.ListHoroscopoPageModule)
   },
   {
+    path: 'offline',
+    loadChildren: () => import('./pages/offline/offline.module').then( m => m.OfflinePageModule)
+  },
+  {
     path: '**',
     redirectTo: 'inicio'
   },
