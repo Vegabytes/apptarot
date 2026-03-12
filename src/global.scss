@@ -42,6 +42,22 @@
     src: url('assets/fonts/Ubuntu-Medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 10000;
+    font-size: 14px;
+    text-decoration: none;
+    &:focus {
+        top: 0;
+    }
 }
 
 body {

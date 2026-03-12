@@ -1,12 +1,12 @@
 <ion-header class="header-gradient">
   <ion-toolbar>
-    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline" aria-label="Volver al menú"></ion-back-button>
     <ion-buttons slot="end">
 
       <ion-button (click)="bntShare()" aria-label="Compartir">
         <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()" aria-label="Menú">
+      <ion-button (click)="openMenu()" aria-label="Abrir menú de navegación">
         <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
@@ -16,38 +16,38 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" role="main">
 
 <ion-row>
   <ion-col size="10" offset="1">
 
-    <div class="titulo">
+    <div class="titulo" role="heading" aria-level="1">
       <span>Descubre que te deparará el destino hoy sobre</span>
     </div>
 
-    <ion-card class="custom-card" (click)="irDetalle('Salud')">
-      <img src="../../../assets/img/icono_salud.png" alt="Salud" />
+    <ion-card class="custom-card" (click)="irDetalle('Salud')" role="button" tabindex="0" (keydown.enter)="irDetalle('Salud')">
+      <img src="../../../assets/img/icono_salud.png" alt="Consulta de tarot sobre salud" loading="lazy" />
       <ion-card-header>
         <ion-card-title>Salud</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card class="custom-card" (click)="irDetalle('Dinero')">
-      <img src="../../../assets/img/icono_dinero.png" alt="Dinero" />
+    <ion-card class="custom-card" (click)="irDetalle('Dinero')" role="button" tabindex="0" (keydown.enter)="irDetalle('Dinero')">
+      <img src="../../../assets/img/icono_dinero.png" alt="Consulta de tarot sobre dinero" loading="lazy" />
       <ion-card-header>
         <ion-card-title>Dinero</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card class="custom-card" (click)="irDetalle('Amor')">
-      <img src="../../../assets/img/icono_amor.png" alt="Amor" />
+    <ion-card class="custom-card" (click)="irDetalle('Amor')" role="button" tabindex="0" (keydown.enter)="irDetalle('Amor')">
+      <img src="../../../assets/img/icono_amor.png" alt="Consulta de tarot sobre amor" loading="lazy" />
       <ion-card-header>
         <ion-card-title>Amor</ion-card-title>
       </ion-card-header>
     </ion-card>
 
-    <ion-card class="custom-card" (click)="irDetalle('Trabajo')">
-      <img src="../../../assets/img/icono_trabajo.png" alt="Trabajo" />
+    <ion-card class="custom-card" (click)="irDetalle('Trabajo')" role="button" tabindex="0" (keydown.enter)="irDetalle('Trabajo')">
+      <img src="../../../assets/img/icono_trabajo.png" alt="Consulta de tarot sobre trabajo" loading="lazy" />
       <ion-card-header>
         <ion-card-title>Trabajo</ion-card-title>
       </ion-card-header>

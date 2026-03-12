@@ -1,17 +1,17 @@
-<ion-content [fullscreen]="false">
+<ion-content [fullscreen]="false" role="main">
   <div class="box-container">
-    <div class="gradient-button-box">
-      <ion-icon name="caret-down-outline" class="ico-caret"></ion-icon>
+    <div class="gradient-button-box" role="heading" aria-level="1">
+      <ion-icon name="caret-down-outline" class="ico-caret" aria-hidden="true"></ion-icon>
       Haz tu elección
-      <ion-icon name="caret-down-outline" class="ico-caret"></ion-icon>
+      <ion-icon name="caret-down-outline" class="ico-caret" aria-hidden="true"></ion-icon>
     </div>
   </div>
 
-  <div class="list">
-    <div class="centrado" (click)="irDetalleTarotDiario()">
+  <div class="list" role="list">
+    <div class="centrado" role="button" tabindex="0" (click)="irDetalleTarotDiario()" (keydown.enter)="irDetalleTarotDiario()">
 
       <div class="box-img">
-        <img src="../../../assets/img/horoscopo/icono-tarot-diario.png" alt="Tarot diario" class="img-list">
+        <img src="../../../assets/img/horoscopo/icono-tarot-diario.png" alt="Tarot diario" class="img-list" loading="lazy">
       </div>
       <div class="box-title">
         <ion-text class="text-title">
@@ -20,10 +20,10 @@
       </div>
     </div>
 
-    <div class="centrado" (click)="irDetalleTarotPregunta()">
+    <div class="centrado" role="button" tabindex="0" (click)="irDetalleTarotPregunta()" (keydown.enter)="irDetalleTarotPregunta()">
 
       <div class="box-img">
-        <img src="../../../assets/img/horoscopo/icono-tarot-si-no.png" alt="Tarot Sí o No" class="img-list">
+        <img src="../../../assets/img/horoscopo/icono-tarot-si-no.png" alt="Tarot Sí o No" class="img-list" loading="lazy">
       </div>
       <div class="box-title">
         <ion-text class="text-title">
@@ -32,10 +32,10 @@
       </div>
     </div>
 
-    <div class="centrado" (click)="irTrabajoPersonalizados()">
+    <div class="centrado" role="button" tabindex="0" (click)="irTrabajoPersonalizados()" (keydown.enter)="irTrabajoPersonalizados()">
 
       <div class="box-img">
-        <img src="../../../assets/img/horoscopo/personalizados.png" alt="Trabajos personalizados" class="img-list">
+        <img src="../../../assets/img/horoscopo/personalizados.png" alt="Trabajos personalizados" class="img-list" loading="lazy">
       </div>
       <div class="box-title">
         <ion-text class="text-title">
@@ -44,10 +44,10 @@
       </div>
     </div>
 
-    <div class="centrado" (click)="irRituales()">
+    <div class="centrado" role="button" tabindex="0" (click)="irRituales()" (keydown.enter)="irRituales()">
 
       <div class="box-img">
-        <img src="../../../assets/img/horoscopo/rituales.png" alt="Rituales gratuitos" class="img-list">
+        <img src="../../../assets/img/horoscopo/rituales.png" alt="Rituales gratuitos" class="img-list" loading="lazy">
       </div>
       <div class="box-title">
         <ion-text class="text-title">
@@ -56,10 +56,10 @@
       </div>
     </div>
 
-    <div class="centrado" (click)="irHoroscopo()">
+    <div class="centrado" role="button" tabindex="0" (click)="irHoroscopo()" (keydown.enter)="irHoroscopo()">
 
       <div class="box-img">
-        <img src="../../../assets/img/horoscopo/icono-horoscopo.png" alt="Horóscopo" class="img-list">
+        <img src="../../../assets/img/horoscopo/icono-horoscopo.png" alt="Horóscopo" class="img-list" loading="lazy">
       </div>
       <div class="box-title">
         <ion-text class="text-title">

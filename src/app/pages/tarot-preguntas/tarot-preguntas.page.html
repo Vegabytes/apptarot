@@ -1,12 +1,12 @@
 <ion-header class="header-gradient">
   <ion-toolbar>
-    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline" aria-label="Volver al menú"></ion-back-button>
     <ion-buttons slot="end">
 
       <ion-button (click)="bntShare()" aria-label="Compartir">
         <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()" aria-label="Menú">
+      <ion-button (click)="openMenu()" aria-label="Abrir menú de navegación">
         <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
@@ -16,26 +16,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" role="main">
 
 <ion-row>
   <ion-col size="10" offset="1">
-    <div class="titulo">
+    <div class="titulo" role="heading" aria-level="1">
       <span>Piensa en una pregunta de Sí o No</span>
     </div>
 
-    <div class="subtitulo">
+    <div class="subtitulo" role="heading" aria-level="2">
       <span>Elije <span style="font-size: 30px;">1</span> carta para obtener respuesta</span>
     </div>
 
     <div class="box-card">
 
       <ion-card class="card" *ngFor="let c of cards; trackBy: trackByCardId" (click)="openCard(c)"
-        [ngClass]="{'flipped': c.open}">
-        <!-- Reverso de la carta -->
-        <img src="assets/img/cartas/0.png" alt="Reverso" class="carta-reverso" />
-        <!-- Frente de la carta -->
-        <img [src]="c.image" alt="Frente" class="carta-activa" />
+        [ngClass]="{'flipped': c.open}" role="button" tabindex="0" (keydown.enter)="openCard(c)" [attr.aria-label]="c.open ? 'Carta ' + c.name + ' seleccionada' : 'Seleccionar carta'">
+        <img src="assets/img/cartas/0.png" alt="Reverso de carta de tarot" class="carta-reverso" loading="lazy" />
+        <img [src]="c.image" [alt]="'Carta de tarot: ' + (c.name || 'sin revelar')" class="carta-activa" loading="lazy" />
       </ion-card>
 
 
@@ -44,12 +42,12 @@
     </div>
     <div class="button-container-result">
       <ion-button class="gradient-button-result" (click)="irResultados()" mode="md">
-        <img src="../../../assets/img/icono_resultados.png" alt="Ver resultado" class="icon-ver">
+        <img src="../../../assets/img/icono_resultados.png" alt="Icono ver resultado" class="icon-ver" loading="lazy">
         VER RESULTADO
       </ion-button>
     </div>
 
-    <div *ngIf="errorMsg" style="text-align: center; padding: 20px; color: #ff6b6b;">
+    <div *ngIf="errorMsg" style="text-align: center; padding: 20px; color: #ff6b6b;" aria-live="polite">
       <p>{{ errorMsg }}</p>
       <ion-button fill="outline" size="small" (click)="retry()">Reintentar</ion-button>
     </div>

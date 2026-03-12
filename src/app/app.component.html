@@ -1,27 +1,28 @@
+<a class="skip-link" href="#main-content">Saltar al contenido</a>
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content >
+    <ion-menu contentId="main-content" type="overlay" role="navigation" aria-label="Menú principal">
+      <ion-content>
 
 
-        <ion-list id="labels-list" class="ion-content-menu" mode="md">
+        <ion-list id="labels-list" class="ion-content-menu" mode="md" role="list">
 
           <div class="img-top">
-            <img src="../assets/img/marco_sup.png" alt="Marco decorativo superior" style="" />
+            <img src="../assets/img/marco_sup.png" alt="Marco decorativo superior" loading="lazy" />
            </div>
          <div class="centrado-item">
-          <ion-item lines="none" class="item-menu" mode="md" (click)="irWeb()">
+          <ion-item lines="none" class="item-menu" mode="md" (click)="irWeb()" role="listitem" tabindex="0" (keydown.enter)="irWeb()">
             <ion-label mode="md">Nuestra web</ion-label>
           </ion-item>
-          <ion-item lines="none" class="item-menu" mode="md" (click)="irPolitica()">
+          <ion-item lines="none" class="item-menu" mode="md" (click)="irPolitica()" role="listitem" tabindex="0" (keydown.enter)="irPolitica()">
             <ion-label mode="md">Política de privacidad</ion-label>
           </ion-item>
-          <ion-item lines="none" class="item-menu" mode="md" (click)="openStore()">
+          <ion-item lines="none" class="item-menu" mode="md" (click)="openStore()" role="listitem" tabindex="0" (keydown.enter)="openStore()">
             <ion-label mode="md">Valora nuestra App</ion-label>
           </ion-item>
          </div>
           <div class="img-inf">
-            <img src="../assets/img/marco_inf.png" alt="Marco decorativo inferior" style="" />
+            <img src="../assets/img/marco_inf.png" alt="Marco decorativo inferior" loading="lazy" />
            </div>
         </ion-list>
       </ion-content>

@@ -1,17 +1,17 @@
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" role="main">
   <div class="logo-container">
-    <img src="../../../assets/img/logo.png" alt="Logo de Tarot María Fernández" class="logo">
+    <img src="../../../assets/img/logo.png" alt="Logo de Tarot María Fernández" class="logo" loading="eager">
   </div>
   <div class="carta">
-    <img src="../../../assets/img/cartas/0.png" alt="Carta de tarot" class="logo">
+    <img src="../../../assets/img/cartas/0.png" alt="Carta de tarot boca abajo" class="logo" loading="lazy">
   </div>
 
   <div class="button-container">
     <ion-button class="gradient-button" (click)="irMenu()" mode="md">
       Entrar
-      <img src="../../../assets/img/icono_entrar.png" alt="Entrar" class="icon-entrar">
+      <img src="../../../assets/img/icono_entrar.png" alt="Icono de entrar" class="icon-entrar" loading="lazy">
     </ion-button>
   </div>
- 
+
 </ion-content>

@@ -1,12 +1,12 @@
 <ion-header class="header-gradient">
   <ion-toolbar>
-    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline" aria-label="Volver al menú"></ion-back-button>
     <ion-buttons slot="end">
 
       <ion-button (click)="bntShare()" aria-label="Compartir">
         <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()" aria-label="Menú">
+      <ion-button (click)="openMenu()" aria-label="Abrir menú de navegación">
         <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
@@ -16,15 +16,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
- 
+<ion-content [fullscreen]="true" role="main">
+
 
   <ion-row>
     <ion-col size="10" offset="1">
       <div class="img-top">
-        <img src="../assets/img/marco_sup.png" alt="Marco decorativo superior" style="" />
+        <img src="../assets/img/marco_sup.png" alt="Marco decorativo superior" loading="lazy" />
       </div>
-      <div class="titulo">
+      <div class="titulo" role="heading" aria-level="1">
         <span> Trabajos personalizados bajo pago</span>
       </div>
 
@@ -40,13 +40,13 @@
       </div>
 
       <div>
-        <ion-button fill="clear" (click)="openWhatsApp()" aria-label="Contactar por WhatsApp">
-          <img src="../../../assets/img/whatsapp.png" alt="Contactar por WhatsApp">
+        <ion-button fill="clear" (click)="openWhatsApp()" aria-label="Contactar por WhatsApp con la ayudante Elina">
+          <img src="../../../assets/img/whatsapp.png" alt="Icono de WhatsApp" loading="lazy">
         </ion-button>
       </div>
 
       <div class="img-inf">
-        <img src="../assets/img/marco_inf.png" alt="Marco decorativo inferior" style="" />
+        <img src="../assets/img/marco_inf.png" alt="Marco decorativo inferior" loading="lazy" />
       </div>
     </ion-col>
   </ion-row>

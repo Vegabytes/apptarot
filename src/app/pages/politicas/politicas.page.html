@@ -1,30 +1,30 @@
 <ion-header class="header-gradient">
   <ion-toolbar>
-    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline"></ion-back-button>
+    <ion-back-button mode="md" slot="start" defaultHref="/menu" icon="chevron-back-outline" aria-label="Volver al menú"></ion-back-button>
     <ion-buttons slot="end">
 
       <ion-button aria-label="Compartir">
         <img src="../../../assets/img/icono_compartir.png" alt="Compartir" style="width: 25px;" />
       </ion-button>
-      <ion-button (click)="openMenu()" aria-label="Menú">
+      <ion-button (click)="openMenu()" aria-label="Abrir menú de navegación">
         <img src="../../../assets/img/icono_menu.png" alt="Menú" style="width: 30px; height: 25px;" />
       </ion-button>
     </ion-buttons>
     <ion-title mode="md" class="text-header" slot="start">
-     
+
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" role="main">
   <div class="box-container">
-  
 
-    
-   
+
+
+
 
       <ion-row>
         <ion-col size="10" offset="1">
-          <div class="box-title">
+          <div class="box-title" role="heading" aria-level="1">
             <ion-text class="text-title">
               Política de privacidad
             </ion-text>
@@ -50,11 +50,10 @@
           </div>
         </ion-col>
       </ion-row>
-      
+
     </div>
 
 
-   
 
 
 
