@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Browser } from '@capacitor/browser';
+import { YOUTUBE_CHANNEL } from 'src/app/data/constants';
 
 @Component({
   selector: 'app-menu',
@@ -42,10 +43,7 @@ export class MenuPage implements OnInit {
   }
 
   async irRituales() {
-   // const url = `https://youtube.com/@mariafernandezfernandez?si=30702DI8DZDg3REw`;
-   // window.open(url, '_blank'); // Abre el enlace en una nueva pestaña o ventana
-
-    await Browser.open({ url: `https://youtube.com/@mariafernandezfernandez?si=30702DI8DZDg3REw` });
+    await Browser.open({ url: YOUTUBE_CHANNEL });
   }
 
 }

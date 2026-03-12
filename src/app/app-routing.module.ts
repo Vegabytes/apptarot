@@ -25,17 +25,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tarot-preguntas/tarot-preguntas.module').then( m => m.TarotPreguntasPageModule)
   },
   {
-    path: 'horoscopo',
-    loadChildren: () => import('./pages/horoscopo/horoscopo.module').then( m => m.HoroscopoPageModule)
-  },
-
-  {
-    path: 'horoscopo-details',
-    loadChildren: () => import('./pages/horoscopo-details/horoscopo-details.module').then( m => m.HoroscopoDetailsPageModule)
-  },
-
-
-  {
     path: 'tarot-horoscopo',
     loadChildren: () => import('./pages/tarot-horoscopo/tarot-horoscopo.module').then( m => m.TarotHoroscopoPageModule)
   },

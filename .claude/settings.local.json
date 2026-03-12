@@ -17,7 +17,8 @@
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npm install @angular/service-worker@18.2.3 2>&1 | tail -5)",
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -10)",
       "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | grep -i \"error\" | head -10)",
-      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -5)"
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | tail -5)",
+      "Bash(cd \"C:\\\\Users\\\\acast\\\\Documents\\\\apptarot-master-20260312T170545Z-3-001\\\\apptarot-master\" && npx ng build --configuration production 2>&1 | grep \"error NG\" | head -5)"
     ]
   }
 }

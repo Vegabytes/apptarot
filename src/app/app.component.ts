@@ -13,6 +13,10 @@ import { Router } from '@angular/router';
 import { SafeArea } from 'capacitor-plugin-safe-area';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
 
 register();
 
@@ -23,7 +27,7 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  private deferredPrompt: any;
+  private deferredPrompt: BeforeInstallPromptEvent | null = null;
   private installPromptShown = false;
   public appPages = [
     { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
@@ -47,19 +51,6 @@ export class AppComponent {
     this.listenNetwork();
     this.listenInstallPrompt();
   }
-
-  // initializeBackButton() {
-  //   this.platform.backButton.subscribeWithPriority(10, () => {
-  //     if (this.location.isCurrentPathEqualTo('/inicio')) {
-  //       if (this.platform.is('android')) {
-  //         (window['navigator'] as any).app.exitApp();
-  //       }
-  //     } else {
-  //       this.location.back();
-  //     }
-  //   });
-
-  // }
 
   initializeApp() {
     this.platform.ready().then(async () => {
@@ -103,10 +94,11 @@ export class AppComponent {
       this.applyInsetsToCSS(insets);
 
       // Escuchar cambios dinámicos (rotación, teclado, etc.)
-      SafeArea.addListener('safeAreaChanged', (data: any) => {
+      SafeArea.addListener('safeAreaChanged', (data: { insets: { top: number; bottom: number; left: number; right: number } }) => {
         this.applyInsetsToCSS(data.insets);
       });
     } catch (e) {
+      // SafeArea plugin not available on this platform; CSS insets will use defaults
     }
   }
 
@@ -169,9 +161,9 @@ export class AppComponent {
   }
 
   private listenInstallPrompt() {
-    window.addEventListener('beforeinstallprompt', (e: any) => {
+    window.addEventListener('beforeinstallprompt', (e: Event) => {
       e.preventDefault();
-      this.deferredPrompt = e;
+      this.deferredPrompt = e as BeforeInstallPromptEvent;
       if (!this.installPromptShown) {
         this.installPromptShown = true;
         this.showInstallToast();

@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { ZodiacService } from 'src/app/api/zodiac.service';
 import { Zodiac } from 'src/app/interfaces/zodiac.interface';
-import Swiper from 'swiper';
-import { Horoscope } from 'src/app/interfaces/horoscope.interface';
+import { Horoscope, Sign } from 'src/app/interfaces/horoscope.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
@@ -19,7 +18,6 @@ import { takeUntil } from 'rxjs/operators';
 export class TarotHoroscopoPage implements OnInit, OnDestroy {
 
   zodiacs: Zodiac[] = [];
-  @ViewChild('swiper') swiperRef!: ElementRef;
   slidesPerView = 3;
   zodiacActive: number = 0;
   horoscopes: Horoscope[] = [];
@@ -119,7 +117,7 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
     this.initialLoad();
   }
 
-  trackBySignId(index: number, item: any): number {
+  trackBySignId(index: number, item: Sign): number {
     return item.id;
   }
 

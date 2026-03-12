@@ -10,6 +10,7 @@ import { Browser } from '@capacitor/browser';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } from 'src/app/data/videos.data';
+import { PHONE_NUMBER } from 'src/app/data/constants';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
   responseConsult: string[] = [];
   loadinfo: boolean = true;
   errorMsg = '';
+  readonly phoneNumber = PHONE_NUMBER;
 
   videos: VideoItem[] = VIDEOS_DINERO;
   videossalud: VideoItem[] = VIDEOS_SALUD;

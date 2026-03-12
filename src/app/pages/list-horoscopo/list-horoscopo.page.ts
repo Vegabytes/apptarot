@@ -8,6 +8,7 @@ import { ZodiacService } from 'src/app/api/zodiac.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { PHONE_NUMBER } from 'src/app/data/constants';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
   formattedDate: string = '';
   loadinfo: boolean = true;
   errorMsg = '';
+  readonly phoneNumber = PHONE_NUMBER;
 
   private destroy$ = new Subject<void>();
 
