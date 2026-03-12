@@ -89,6 +89,10 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
           this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
         }
       })
+    } else {
+      await loading.dismiss();
+      this.loadinfo = false;
+      this.errorMsg = 'No se han proporcionado los datos necesarios.';
     }
 
   }
@@ -119,12 +123,17 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
   }
 
 
   async openYouTubeVideo(url: string) {
-    await Browser.open({ url: url });
+    try {
+      await Browser.open({ url: url });
+    } catch (error) {
+      // Failed to open browser
+    }
   }
 
   makeCall(phoneNumber: string) {

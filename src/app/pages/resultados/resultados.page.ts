@@ -3,7 +3,7 @@ import { MenuController, LoadingController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
-import { ICard, ICardAux } from 'src/app/interfaces/card.interface';
+import { ICard } from 'src/app/interfaces/card.interface';
 import { CardService } from 'src/app/api/card.service';
 import { ResponseCard } from 'src/app/interfaces/responsegpt.interface';
 import { Browser } from '@capacitor/browser';
@@ -20,7 +20,6 @@ import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } f
 export class ResultadosPage implements OnInit, OnDestroy {
 
   cards: ICard[]        = [];
-  cardsShow: ICardAux[] = [];
   subject: string = "";
   responseCard: ResponseCard|undefined;
   loadinfo: boolean = true;
@@ -54,7 +53,11 @@ export class ResultadosPage implements OnInit, OnDestroy {
 
 
   async openYouTubeVideo(url: string) {
-    await Browser.open({ url: url });
+    try {
+      await Browser.open({ url: url });
+    } catch (error) {
+      // Failed to open browser
+    }
   }
 
 
@@ -75,16 +78,16 @@ export class ResultadosPage implements OnInit, OnDestroy {
 
     this.errorMsg = '';
 
+    const loading = await this.loadingController.create({
+      message: 'Interpretando...',
+      spinner: 'circles',
+    });
+
+    await loading.present();
+
     if(this.subject && this.cards.length==3){
 
       this.loadinfo = true;
-
-      const loading = await this.loadingController.create({
-        message: 'Interpretando...',
-        spinner: 'circles',
-      });
-
-      await loading.present();
 
       this.cardService.responseGame(this.subject, this.cards).pipe(takeUntil(this.destroy$)).subscribe({
         next: (response: ResponseCard)=>{
@@ -101,6 +104,10 @@ export class ResultadosPage implements OnInit, OnDestroy {
           this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
         }
       })
+    } else {
+      await loading.dismiss();
+      this.loadinfo = false;
+      this.errorMsg = 'No se han proporcionado los datos necesarios.';
     }
 
   }
@@ -126,19 +133,22 @@ export class ResultadosPage implements OnInit, OnDestroy {
     let textReturn: string[] = [];
 
     if(this.responseCard){
-      let found = this.responseCard.carta_1[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
-      if(found){
-        return this.responseCard.carta_1;
-      }else{
-        found = this.responseCard.carta_2[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
+      if(this.responseCard.carta_1.length > 0){
+        let found = this.responseCard.carta_1[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
+        if(found){
+          return this.responseCard.carta_1;
+        }
+      }
+      if(this.responseCard.carta_2.length > 0){
+        let found = this.responseCard.carta_2[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
         if(found){
           return this.responseCard.carta_2;
-        }else{
-          found = this.responseCard.carta_3[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
-
-          if(found){
-            return this.responseCard.carta_3;
-          }
+        }
+      }
+      if(this.responseCard.carta_3.length > 0){
+        let found = this.responseCard.carta_3[0].toLocaleLowerCase().includes(search.toLocaleLowerCase());
+        if(found){
+          return this.responseCard.carta_3;
         }
       }
     }
@@ -162,6 +172,7 @@ export class ResultadosPage implements OnInit, OnDestroy {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
 
     }

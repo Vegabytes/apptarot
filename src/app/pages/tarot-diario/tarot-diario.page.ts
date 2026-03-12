@@ -52,6 +52,7 @@ export class TarotDiarioPage implements OnInit {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
   }
 

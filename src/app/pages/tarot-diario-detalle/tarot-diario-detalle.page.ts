@@ -96,10 +96,6 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
     return count;
   }
 
-  irDetalle() {
-    this.navCtrl.navigateForward('/tarot-diario-detalle');
-  }
-
   irResultados() {
 
     if(this.countOpen()==3){
@@ -136,6 +132,7 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
   }
 

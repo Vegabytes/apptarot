@@ -66,12 +66,6 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
     return item.id;
   }
 
-  irDetalle() {
-    this.navCtrl.navigateForward('/tarot-diario-detalle');
-  }
-
-
-
   openMenu() {
     this.menuCtrl.open();
   }
@@ -119,6 +113,7 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
   }
 

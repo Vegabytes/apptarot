@@ -45,7 +45,7 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
             this.formattedDate     = state['formattedDate'] as unknown as string;
             if (this.horoscopeActive) {
               this.sanitizedDescription = this.sanitizer.bypassSecurityTrustHtml(
-                this.horoscopeActive.description.replace(/\n/g, '<br>')
+                this.horoscopeActive?.description ? this.horoscopeActive.description.replace(/\n/g, '<br>') : ''
               );
             }
           }
@@ -97,6 +97,9 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
               });
             }
           },
+          complete: async () => {
+            await loading.dismiss();
+          },
           error: async (error) => {
             await loading.dismiss();
             this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
@@ -108,8 +111,6 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
     })
-
-    await loading.dismiss();
 
   }
 
@@ -127,7 +128,7 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
     if(this.horoscopeActive){
       this.formattedDate = this.formatDate(this.horoscopeActive.datehoroscope);
       this.sanitizedDescription = this.sanitizer.bypassSecurityTrustHtml(
-        this.horoscopeActive.description.replace(/\n/g, '<br>')
+        this.horoscopeActive?.description ? this.horoscopeActive.description.replace(/\n/g, '<br>') : ''
       );
     }
   }
@@ -162,6 +163,7 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
+        // Share cancelled by user
       }
     }
 

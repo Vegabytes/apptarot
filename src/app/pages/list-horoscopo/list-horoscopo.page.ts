@@ -60,7 +60,6 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
     this.zodiacService.getZodiacSigns().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: Zodiac[])=>{
         this.zodiacs = response;
-        this.loadinfo = false;
 
         this.zodiacService.getHoroscopeAll().pipe(takeUntil(this.destroy$)).subscribe({
           next: (responseHoroscope: Horoscope[])=>{
@@ -69,8 +68,13 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
               h.description = h.description.replace(/\n/g, '<br>');
             }
           },
+          complete: async () => {
+            await loading.dismiss();
+            this.loadinfo = false;
+          },
           error: async (error) => {
             await loading.dismiss();
+            this.loadinfo = false;
             this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
           }
         })
@@ -81,9 +85,6 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
     })
-
-    await loading.dismiss();
-    this.loadinfo = false;
 
   }
 
@@ -114,6 +115,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
   }
 
   formatDate(inputDate: string): string {
+    if (!inputDate) return '';
     const [year, month, day] = inputDate.split('-').map(Number);
     const date = new Date(year, month - 1, day);
     const options: Intl.DateTimeFormatOptions = {
@@ -140,6 +142,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
         dialogTitle: 'Compartir'
       });
     } catch (error) {
+      // Share cancelled by user
     }
   }
 
