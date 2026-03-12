@@ -1,11 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationExtras } from "@angular/router";
 import { ICard } from 'src/app/interfaces/card.interface';
+import { ResultadosChatgptState } from 'src/app/interfaces/navigation-state.interface';
 import { CardService } from 'src/app/api/card.service';
 import { Subject } from 'rxjs';
+import { WEBSITE_URL } from 'src/app/data/constants';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -13,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './tarot-preguntas.page.html',
   styleUrls: ['./tarot-preguntas.page.scss'],
 })
-export class TarotPreguntasPage implements OnInit, OnDestroy {
+export class TarotPreguntasPage implements OnDestroy {
 
   cards: ICard[] = [];
   errorMsg = '';
@@ -25,10 +27,6 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private cardService: CardService) {
 
-
-  }
-
-  ngOnInit() {
 
   }
 
@@ -51,7 +49,7 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
           return ele;
         })
       },
-      error: (error) => {
+      error: (_error) => {
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
     })
@@ -95,10 +93,11 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
   irResultados() {
     const cardOpen: ICard|undefined = this.cards.find((ele)=>ele.open);
     if(cardOpen){
-      let navigationExtras: NavigationExtras = {
-        state: {
+      const navState: ResultadosChatgptState = {
           card: cardOpen,
-        }
+      };
+      let navigationExtras: NavigationExtras = {
+        state: navState,
       };
       this.router.navigate(["/resultados-chatgpt"], navigationExtras);
     }
@@ -109,7 +108,7 @@ export class TarotPreguntasPage implements OnInit, OnDestroy {
         await Share.share({
           title: 'Tarot',
           text: ``,
-          url: 'https://mariafernandeztarot.com/',
+          url: WEBSITE_URL,
           dialogTitle: 'Compartir'
         });
       } catch (error) {

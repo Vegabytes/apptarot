@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Browser } from '@capacitor/browser';
@@ -10,12 +10,9 @@ import { YOUTUBE_CHANNEL } from 'src/app/data/constants';
   templateUrl: './menu.page.html',
   styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage implements OnInit {
+export class MenuPage {
 
   constructor(private navCtrl: NavController, private menuCtrl: MenuController ) { }
-
-  ngOnInit() {
-  }
 
   ionViewWillEnter() {
     // Deshabilita el menú lateral en esta vista

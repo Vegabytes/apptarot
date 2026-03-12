@@ -1,21 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { Browser } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
-import { WHATSAPP_ID } from 'src/app/data/constants';
+import { WHATSAPP_ID, WEBSITE_URL } from 'src/app/data/constants';
 
 @Component({
   selector: 'app-trabajos-personalizados',
   templateUrl: './trabajos-personalizados.page.html',
   styleUrls: ['./trabajos-personalizados.page.scss'],
 })
-export class TrabajosPersonalizadosPage implements OnInit {
+export class TrabajosPersonalizadosPage {
 
   constructor( private menuCtrl: MenuController) { }
-
-  ngOnInit() {
-  }
 
   openMenu() {
     this.menuCtrl.open();
@@ -27,14 +24,14 @@ export class TrabajosPersonalizadosPage implements OnInit {
           await Share.share({
             title: 'Tarot',
             text: ``,
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
             dialogTitle: 'Compartir'
           });
         } else if (navigator.share) {
           await navigator.share({
             title: 'Tarot',
             text: '',
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
           });
         }
       } catch (error) {

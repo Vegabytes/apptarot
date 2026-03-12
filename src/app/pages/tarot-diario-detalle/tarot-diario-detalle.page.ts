@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MenuController, LoadingController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { CardService } from 'src/app/api/card.service';
 import { ICard } from 'src/app/interfaces/card.interface';
+import { ResultadosState, TarotDiarioDetalleState } from 'src/app/interfaces/navigation-state.interface';
 import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { WEBSITE_URL } from 'src/app/data/constants';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './tarot-diario-detalle.page.html',
   styleUrls: ['./tarot-diario-detalle.page.scss'],
 })
-export class TarotDiarioDetallePage implements OnInit, OnDestroy {
+export class TarotDiarioDetallePage implements OnDestroy {
   cards: ICard[]  = [];
   subject: string = "";
   errorMsg = '';
@@ -31,18 +33,15 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
 
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        let state = this.router.getCurrentNavigation()?.extras.state;
+        const state = this.router.getCurrentNavigation()?.extras.state as TarotDiarioDetalleState | undefined;
 
         if(state){
-          this.subject        = state['subject'] as unknown as string;
+          this.subject        = state.subject;
         }
       }
     });
 
    }
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -74,7 +73,7 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
       complete: async () => {
         await loading.dismiss();
       },
-      error: async (error) => {
+      error: async (_error) => {
         await loading.dismiss();
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
@@ -120,11 +119,12 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
         }
       }
 
+      const navState: ResultadosState = {
+        subject: this.subject,
+        cards: cardsOpen,
+      };
       let navigationExtras: NavigationExtras = {
-        state: {
-          subject: this.subject,
-          cards: cardsOpen
-        }
+        state: navState,
       };
 
       this.router.navigate(["/resultados"], navigationExtras);
@@ -141,7 +141,7 @@ export class TarotDiarioDetallePage implements OnInit, OnDestroy {
         await Share.share({
           title: 'Tarot',
           text: ``,
-          url: 'https://mariafernandeztarot.com/',
+          url: WEBSITE_URL,
           dialogTitle: 'Compartir'
         });
       } catch (error) {

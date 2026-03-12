@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { LoadingController, NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { Capacitor } from '@capacitor/core';
 import { Horoscope } from 'src/app/interfaces/horoscope.interface';
+import { TarotHoroscopoState } from 'src/app/interfaces/navigation-state.interface';
 import { Zodiac } from 'src/app/interfaces/zodiac.interface';
 import { ZodiacService } from 'src/app/api/zodiac.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PHONE_NUMBER } from 'src/app/data/constants';
+import { PHONE_NUMBER, WEBSITE_URL, PHONE_REGEX } from 'src/app/data/constants';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { PHONE_NUMBER } from 'src/app/data/constants';
   templateUrl: './list-horoscopo.page.html',
   styleUrls: ['./list-horoscopo.page.scss'],
 })
-export class ListHoroscopoPage implements OnInit, OnDestroy {
+export class ListHoroscopoPage implements OnDestroy {
 
   zodiacs: Zodiac[] = [];
   zodiacActive: number = 0;
@@ -36,9 +37,6 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
       private loadingController: LoadingController,
       private router: Router,
       private zodiacService: ZodiacService) { }
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -79,7 +77,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
             this.loadinfo = false;
             this.isLoading = false;
           },
-          error: async (error) => {
+          error: async (_error) => {
             await loading.dismiss();
             this.loadinfo = false;
             this.isLoading = false;
@@ -87,7 +85,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
           }
         })
       },
-      error: async (error) => {
+      error: async (_error) => {
         await loading.dismiss();
         this.loadinfo = false;
         this.isLoading = false;
@@ -112,11 +110,12 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
       this.formattedDate = this.formatDate(this.horoscopeActive.datehoroscope);
     }
 
+    const navState: TarotHoroscopoState = {
+      horoscope: this.horoscopeActive,
+      formattedDate: this.formattedDate,
+    };
     let navigationExtras: NavigationExtras = {
-      state: {
-        horoscope: this.horoscopeActive,
-        formattedDate: this.formattedDate
-      }
+      state: navState,
     };
 
 
@@ -148,14 +147,14 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
         await Share.share({
           title: 'Tarot',
           text: ``,
-          url: 'https://mariafernandeztarot.com/',
+          url: WEBSITE_URL,
           dialogTitle: 'Compartir'
         });
       } else if (navigator.share) {
         await navigator.share({
           title: 'Tarot',
           text: '',
-          url: 'https://mariafernandeztarot.com/',
+          url: WEBSITE_URL,
         });
       }
     } catch (error) {
@@ -164,7 +163,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
   }
 
   makeCall(phoneNumber: string) {
-    if (!/^\+?\d{7,15}$/.test(phoneNumber)) return;
+    if (!PHONE_REGEX.test(phoneNumber)) return;
     window.open(`tel:${phoneNumber}`, '_system');
   }
 

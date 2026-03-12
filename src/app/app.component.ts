@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators';
 
 import { SafeArea } from 'capacitor-plugin-safe-area';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { WEBSITE_URL, PRIVACY_POLICY_URL } from './data/constants';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -166,7 +167,7 @@ export class AppComponent {
   }
 
   async irWeb() {
-    const url = 'https://mariafernandeztarot.com/';
+    const url = WEBSITE_URL;
     if (Capacitor.isNativePlatform()) {
       await Browser.open({ url });
     } else {
@@ -175,7 +176,7 @@ export class AppComponent {
   }
 
   async irPolitica() {
-    const url = 'https://mariafernandeztarot.com/aviso-legal-y-politica-de-privacidad/';
+    const url = PRIVACY_POLICY_URL;
     if (Capacitor.isNativePlatform()) {
       await Browser.open({ url });
     } else {

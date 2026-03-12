@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { LoadingController, MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { Capacitor } from '@capacitor/core';
 import { ZodiacService } from 'src/app/api/zodiac.service';
 import { Zodiac } from 'src/app/interfaces/zodiac.interface';
 import { Horoscope, Sign } from 'src/app/interfaces/horoscope.interface';
+import { TarotHoroscopoState } from 'src/app/interfaces/navigation-state.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { WEBSITE_URL } from 'src/app/data/constants';
 
 
 @Component({
@@ -16,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './tarot-horoscopo.page.html',
   styleUrls: ['./tarot-horoscopo.page.scss'],
 })
-export class TarotHoroscopoPage implements OnInit, OnDestroy {
+export class TarotHoroscopoPage implements OnDestroy {
 
   zodiacs: Zodiac[] = [];
   slidesPerView = 3;
@@ -39,10 +41,10 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
 
       this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
         if (this.router.getCurrentNavigation()?.extras.state) {
-          let state = this.router.getCurrentNavigation()?.extras.state;
+          const state = this.router.getCurrentNavigation()?.extras.state as TarotHoroscopoState | undefined;
           if(state){
-            this.horoscopeActive   = state['horoscope'] as unknown as Horoscope|undefined;
-            this.formattedDate     = state['formattedDate'] as unknown as string;
+            this.horoscopeActive   = state.horoscope;
+            this.formattedDate     = state.formattedDate;
             if (this.horoscopeActive) {
               this.sanitizedDescription = this.sanitizer.bypassSecurityTrustHtml(
                 this.horoscopeActive?.description ? this.horoscopeActive.description.replace(/\n/g, '<br>') : ''
@@ -51,10 +53,6 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
           }
         }
       });
-  }
-
-  ngOnInit() {
-
   }
 
   ngOnDestroy() {
@@ -106,14 +104,14 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
             await loading.dismiss();
             this.isLoading = false;
           },
-          error: async (error) => {
+          error: async (_error) => {
             await loading.dismiss();
             this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
             this.isLoading = false;
           }
         })
       },
-      error: async (error) => {
+      error: async (_error) => {
         await loading.dismiss();
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
         this.isLoading = false;
@@ -168,14 +166,14 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
           await Share.share({
             title: 'Horoscopo',
             text: `Signo: ${this.horoscopeActive.zodiacsign.name}, Número: ${this.horoscopeActive.numberhoroscope}, Color: ${this.horoscopeActive.color.name}, Lectura: ${this.horoscopeActive.description}`,
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
             dialogTitle: 'Compartir'
           });
         } else if (navigator.share) {
           await navigator.share({
             title: 'Horoscopo',
             text: `Signo: ${this.horoscopeActive.zodiacsign.name}, Número: ${this.horoscopeActive.numberhoroscope}, Color: ${this.horoscopeActive.color.name}, Lectura: ${this.horoscopeActive.description}`,
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
           });
         }
       } catch (error) {

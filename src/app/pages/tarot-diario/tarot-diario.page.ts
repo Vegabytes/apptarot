@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationExtras } from "@angular/router";
-import { CardService } from 'src/app/api/card.service';
-import { ICard } from 'src/app/interfaces/card.interface';
+import { TarotDiarioDetalleState } from 'src/app/interfaces/navigation-state.interface';
+import { WEBSITE_URL } from 'src/app/data/constants';
 
 @Component({
   selector: 'app-tarot-diario',
@@ -12,26 +12,19 @@ import { ICard } from 'src/app/interfaces/card.interface';
   styleUrls: ['./tarot-diario.page.scss'],
 
 })
-export class TarotDiarioPage implements OnInit {
-
-  cards: ICard[] = [];
+export class TarotDiarioPage {
 
   constructor(private router: Router,
     private menuCtrl: MenuController,
-    private navCtrl: NavController,
-    private cardService: CardService) {}
-
-  ngOnInit() {
-
-  }
-
+    private navCtrl: NavController) {}
 
   irDetalle(subject: string) {
 
+    const navState: TarotDiarioDetalleState = {
+      subject: subject,
+    };
     let navigationExtras: NavigationExtras = {
-      state: {
-        subject: subject,
-      }
+      state: navState,
     };
 
     //this.navCtrl.navigateForward('/tarot-diario-detalle');
@@ -48,7 +41,7 @@ export class TarotDiarioPage implements OnInit {
         await Share.share({
           title: 'Tarot',
           text: ``,
-          url: 'https://mariafernandeztarot.com/',
+          url: WEBSITE_URL,
           dialogTitle: 'Compartir'
         });
       } catch (error) {

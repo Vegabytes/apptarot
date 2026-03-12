@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MenuController, LoadingController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
-import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ICard } from 'src/app/interfaces/card.interface';
+import { ResultadosState } from 'src/app/interfaces/navigation-state.interface';
 import { CardService } from 'src/app/api/card.service';
 import { ResponseCard } from 'src/app/interfaces/responsegpt.interface';
 import { Browser } from '@capacitor/browser';
@@ -11,7 +12,7 @@ import { Capacitor } from '@capacitor/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } from 'src/app/data/videos.data';
-import { PHONE_NUMBER } from 'src/app/data/constants';
+import { PHONE_NUMBER, WEBSITE_URL, PHONE_REGEX } from 'src/app/data/constants';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { PHONE_NUMBER } from 'src/app/data/constants';
   templateUrl: './resultados.page.html',
   styleUrls: ['./resultados.page.scss'],
 })
-export class ResultadosPage implements OnInit, OnDestroy {
+export class ResultadosPage implements OnDestroy {
 
   cards: ICard[]        = [];
   subject: string = "";
@@ -46,10 +47,10 @@ export class ResultadosPage implements OnInit, OnDestroy {
   ) {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        let state = this.router.getCurrentNavigation()?.extras.state;
+        const state = this.router.getCurrentNavigation()?.extras.state as ResultadosState | undefined;
         if(state){
-          this.subject   = state['subject'] as unknown as string;
-          this.cards     = state['cards'] as unknown as ICard[];
+          this.subject   = state.subject;
+          this.cards     = state.cards;
         }
       }
     });
@@ -68,10 +69,6 @@ export class ResultadosPage implements OnInit, OnDestroy {
     }
   }
 
-
-  ngOnInit() {
-
-  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -110,7 +107,7 @@ export class ResultadosPage implements OnInit, OnDestroy {
           this.loadinfo = false;
           this.isLoading = false;
         },
-        error: async (error)=>{
+        error: async (_error)=>{
           await loading.dismiss();
           this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
           this.isLoading = false;
@@ -182,14 +179,14 @@ export class ResultadosPage implements OnInit, OnDestroy {
           await Share.share({
             title: 'Tarot',
             text: ``,
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
             dialogTitle: 'Compartir'
           });
         } else if (navigator.share) {
           await navigator.share({
             title: 'Tarot',
             text: '',
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
           });
         }
       } catch (error) {
@@ -201,7 +198,7 @@ export class ResultadosPage implements OnInit, OnDestroy {
   }
 
   makeCall(phoneNumber: string) {
-    if (!/^\+?\d{7,15}$/.test(phoneNumber)) return;
+    if (!PHONE_REGEX.test(phoneNumber)) return;
     window.open(`tel:${phoneNumber}`, '_system');
   }
 

@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { LoadingController, MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
-import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ICard } from 'src/app/interfaces/card.interface';
+import { ResultadosChatgptState } from 'src/app/interfaces/navigation-state.interface';
 import { CardService } from 'src/app/api/card.service';
 import { ResponseYesOrNot } from 'src/app/interfaces/responsegpt.interface';
 import { Browser } from '@capacitor/browser';
@@ -11,7 +12,7 @@ import { Capacitor } from '@capacitor/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } from 'src/app/data/videos.data';
-import { PHONE_NUMBER } from 'src/app/data/constants';
+import { PHONE_NUMBER, WEBSITE_URL, PHONE_REGEX } from 'src/app/data/constants';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { PHONE_NUMBER } from 'src/app/data/constants';
   templateUrl: './resultados-chatgpt.page.html',
   styleUrls: ['./resultados-chatgpt.page.scss'],
 })
-export class ResultadosChatgptPage implements OnInit, OnDestroy {
+export class ResultadosChatgptPage implements OnDestroy {
 
   card: ICard|undefined;
   responseConsult: string[] = [];
@@ -45,16 +46,13 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
 
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        let state = this.router.getCurrentNavigation()?.extras.state;
+        const state = this.router.getCurrentNavigation()?.extras.state as ResultadosChatgptState | undefined;
 
         if(state){
-          this.card        = state['card'] as unknown as ICard;
+          this.card        = state.card;
         }
       }
     });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {
@@ -91,7 +89,7 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
           this.loadinfo       = false;
           this.isLoading = false;
         },
-        error: async (error)=>{
+        error: async (_error)=>{
           await loading.dismiss();
           this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
           this.isLoading = false;
@@ -129,14 +127,14 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
           await Share.share({
             title: 'Tarot',
             text: ``,
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
             dialogTitle: 'Compartir'
           });
         } else if (navigator.share) {
           await navigator.share({
             title: 'Tarot',
             text: '',
-            url: 'https://mariafernandeztarot.com/',
+            url: WEBSITE_URL,
           });
         }
       } catch (error) {
@@ -158,7 +156,7 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
   }
 
   makeCall(phoneNumber: string) {
-    if (!/^\+?\d{7,15}$/.test(phoneNumber)) return;
+    if (!PHONE_REGEX.test(phoneNumber)) return;
     window.open(`tel:${phoneNumber}`, '_system');
   }
 

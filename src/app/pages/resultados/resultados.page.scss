@@ -1,8 +1,3 @@
-.ico-llamar{
-    width: 40px;
-    margin-left: 10px;
-}
-
 .box-card  {
     display: flex;
     justify-content: center;
@@ -15,14 +10,6 @@
     width: 400px;
     height: auto;
 }
-.title {
-    color: white;
-    font-size: 25px;
-    font-family: "Ubuntu";
-    margin-left: 10px;
-    margin-bottom: 10px;
-
-}
 
 .parrafo {
     color: white;
@@ -33,35 +20,7 @@
 
 }
 
-.text-small{
-    color: white;
-    font-size: 9px;
-    font-family: "Ubuntu";
-    width: 100%;
-    display: flex;
-
-}
-
-.text-recomendacion{
-    color: white;
-    font-size: 1.4rem;
-    font-family: "Ubuntu";
-    line-height: 1.3;
-    /* margin-left: 10px; */
-    text-align: center;
-}
-
-.transparent-list {
-    background: transparent;
-  }
-
-  .transparent-item {
-    --background: transparent;
-    --ion-item-background: transparent;
-    margin-bottom: 1rem;
-  }
-
-  ion-button {
+ion-button {
     color: #fff;
     font-size: 16px;
     text-transform: capitalize;
@@ -81,23 +40,10 @@
 
   }
 
-  .ion-color-tertiary {
-    --ion-color-base: #6030ff42 !important;
-    --ion-color-base-rgb: var(--ion-color-tertiary-rgb, 96, 48, 255) !important;
-    --ion-color-contrast: var(--ion-color-tertiary-contrast, #fff) !important;
-    --ion-color-contrast-rgb: var(--ion-color-tertiary-contrast-rgb, 255, 255, 255) !important;
-    --ion-color-shade: var(--ion-color-tertiary-shade, #542ae0) !important;
-    --ion-color-tint: var(--ion-color-tertiary-tint, #7045ff) !important;
-}
-
 ion-button {
     color: #fff;
     font-size: 1rem;
     text-transform: capitalize;
-}
-
-.mb-2{
-    margin-bottom: 1rem;
 }
 
 .box-resumen{

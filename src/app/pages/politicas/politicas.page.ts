@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -6,12 +6,9 @@ import { MenuController } from '@ionic/angular';
   templateUrl: './politicas.page.html',
   styleUrls: ['./politicas.page.scss'],
 })
-export class PoliticasPage implements OnInit {
+export class PoliticasPage {
 
   constructor(private menuCtrl: MenuController, ) { }
-
-  ngOnInit() {
-  }
 
   openMenu() {
     this.menuCtrl.open();

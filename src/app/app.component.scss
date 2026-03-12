@@ -74,11 +74,11 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
-.ion-content-menu {
+ion-menu ion-list.ion-content-menu {
   --background: none;
   background: url('../assets/img/fondo.jpg') center/cover no-repeat;
   height: 100%;
-  padding: 0 !important;
+  padding: 0;
 }
 .img-inf {
   position: absolute;
