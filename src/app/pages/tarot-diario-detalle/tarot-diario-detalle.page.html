@@ -45,7 +45,7 @@
       </ion-button>
     </div>
 
-    <div *ngIf="errorMsg" style="text-align: center; padding: 20px; color: #ff6b6b;" aria-live="polite">
+    <div *ngIf="errorMsg" class="error-container" aria-live="polite">
       <p>{{ errorMsg }}</p>
       <ion-button fill="outline" size="small" (click)="retry()">Reintentar</ion-button>
     </div>

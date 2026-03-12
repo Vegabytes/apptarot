@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://apptarot-bbn.pages.dev/sitemap.xml

@@ -8,7 +8,9 @@ import { Location } from '@angular/common';
 import { App } from '@capacitor/app';
 import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import { Device } from '@capacitor/device';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
+import { filter } from 'rxjs/operators';
 
 import { SafeArea } from 'capacitor-plugin-safe-area';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -29,6 +31,8 @@ register();
 export class AppComponent {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
   private installPromptShown = false;
+  private iosInstallShown = false;
+
   constructor(
     private navCtrl: NavController,
     private platform: Platform,
@@ -36,10 +40,33 @@ export class AppComponent {
     private router: Router,
     private ngZone: NgZone,
     private toastController: ToastController,
+    private titleService: Title,
+    private metaService: Meta,
   ) {
     this.initializeApp();
     this.listenNetwork();
     this.listenInstallPrompt();
+    this.showIOSInstallBanner();
+    this.listenRouteChanges();
+  }
+
+  private listenRouteChanges() {
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(() => {
+      const routeData = this.router.routerState.root.firstChild?.snapshot.data;
+      if (routeData?.['title']) {
+        this.titleService.setTitle(routeData['title']);
+      }
+      if (routeData?.['description']) {
+        this.metaService.updateTag({ name: 'description', content: routeData['description'] });
+        this.metaService.updateTag({ property: 'og:description', content: routeData['description'] });
+      }
+      const announcer = document.getElementById('route-announcer');
+      if (announcer) {
+        announcer.textContent = document.title;
+      }
+    });
   }
 
   initializeApp() {
@@ -182,11 +209,43 @@ export class AppComponent {
     });
   }
 
+  private showIOSInstallBanner() {
+    if (this.iosInstallShown) return;
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator as any)['standalone'];
+    const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|crios|fxios/i.test(navigator.userAgent);
+
+    if (isIOS && isSafari && !isInStandaloneMode) {
+      this.iosInstallShown = true;
+      setTimeout(() => this.showIOSInstallToast(), 3000);
+    }
+  }
+
+  private async showIOSInstallToast() {
+    const toast = await this.toastController.create({
+      header: '📲 Instala Tarot y Rituales',
+      message: 'Pulsa el botón compartir (cuadrado con flecha ↑) en la barra de Safari y selecciona "Añadir a pantalla de inicio"',
+      position: 'bottom',
+      duration: 15000,
+      cssClass: 'install-toast',
+      buttons: [
+        {
+          text: '✓ Entendido',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+  }
+
   private async showInstallToast() {
     const toast = await this.toastController.create({
-      message: '¿Quieres instalar la app?',
+      header: '📲 Instala la app',
+      message: 'Accede más rápido y sin conexión. ¡Es gratis!',
       position: 'bottom',
-      duration: 8000,
+      duration: 10000,
+      cssClass: 'install-toast',
       buttons: [
         {
           text: 'Instalar',
@@ -198,7 +257,7 @@ export class AppComponent {
           }
         },
         {
-          text: 'No',
+          text: 'Ahora no',
           role: 'cancel'
         }
       ]
