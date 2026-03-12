@@ -11,7 +11,7 @@
 App de tarot (Ionic/Angular/Capacitor) convertida de app nativa a PWA.
 Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplegada en Cloudflare Pages.
 
-**9 commits | ~70 archivos modificados**
+**13 commits | ~80 archivos modificados**
 
 ---
 
@@ -24,7 +24,7 @@ Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplega
 | XSS via `[innerHTML]` sin sanitizar | CRÍTICA | tarot-horoscopo.page.ts | Corregido — DomSanitizer |
 | `usesCleartextTraffic="true"` en Android | ALTA | AndroidManifest.xml | Eliminado |
 | Política de privacidad "Lorem ipsum" | CRÍTICA | politicas.page.html | Reescrita completa |
-| Sin Content Security Policy | ALTA | index.html | CSP meta tag añadido |
+| Sin Content Security Policy | ALTA | index.html | CSP meta tag añadido (con unsafe-inline para Ionic) |
 | Teléfono/WhatsApp hardcodeados | MEDIA | múltiples | Extraídos a constants.ts |
 | API sin autenticación visible | MEDIA | services | No corregible (backend externo) |
 | Backend con DEBUG=True | ALTA | externo | No corregible (avisar al dueño) |
@@ -57,7 +57,8 @@ Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplega
 | Service Worker | Angular SW registrado con ngsw-config.json |
 | Manifest | manifest.webmanifest con nombre, colores, iconos |
 | Iconos PWA | 8 tamaños generados (72-512px) desde icono existente |
-| Banner instalar | Toast "¿Quieres instalar la app?" via beforeinstallprompt |
+| Banner instalar Chrome | Toast mejorado con estilo personalizado via beforeinstallprompt |
+| Banner instalar iOS | Instrucciones específicas para Safari ("Añadir a pantalla de inicio") |
 | Página offline | Pantalla con icono wifi y botón reintentar |
 | _redirects | SPA routing para Cloudflare Pages |
 | Browser/Share guards | Detección de plataforma nativa vs PWA |
@@ -88,8 +89,25 @@ Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplega
 | Focus visible | Estilos :focus-visible con outline púrpura |
 | Skip link | "Saltar al contenido" para screen readers |
 | aria-live | Contenedores de error y resultados anuncian cambios |
-| SEO | meta description, keywords, Open Graph tags |
+| Títulos dinámicos | Título de página cambia según la ruta activa |
+| Route announcer | aria-live region anuncia cambios de página a screen readers |
+| Reduced motion | @media prefers-reduced-motion desactiva animaciones |
+| High contrast | @media forced-colors añade bordes a botones gradient |
+| Error containers | Clase .error-container con soporte high-contrast |
 | Lang | html lang="es" (estaba en "en") |
+
+### SEO
+
+| Mejora | Detalle |
+|--------|---------|
+| Meta description | Descripción única por página via route data |
+| Open Graph | og:title, og:description, og:image, og:url, og:locale |
+| Twitter Cards | summary_large_image con título, descripción e imagen |
+| JSON-LD | Structured data WebApplication schema |
+| Canonical URL | Link rel="canonical" a apptarot-bbn.pages.dev |
+| robots.txt | Permite todos los crawlers, referencia a sitemap |
+| sitemap.xml | 7 URLs públicas con prioridades |
+| Favicon | Reemplazado favicon de Ionic por icono de la app |
 
 ### Limpieza de código
 
@@ -100,10 +118,16 @@ Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplega
 | Páginas muertas eliminadas | horoscopo/, horoscopo-details/ (12 archivos) |
 | Imports no usados | HTTP_INTERCEPTORS, withInterceptorsFromDi, ViewChild, ElementRef |
 | Tipos any → proper types | BeforeInstallPromptEvent, Sign, unknown |
-| Constantes extraídas | PHONE_NUMBER, WHATSAPP_ID, YOUTUBE_CHANNEL |
+| Constantes extraídas | PHONE_NUMBER, WHATSAPP_ID, YOUTUBE_CHANNEL, WEBSITE_URL, PRIVACY_POLICY_URL, PHONE_REGEX |
 | CSS vacío eliminado | .box-color selector vacío |
 | SafeArea fallback | CSS variables por defecto cuando plugin no disponible |
 | Validación teléfono | Regex antes de crear tel: URI |
+| CSS duplicado extraído | Estilos compartidos movidos a global.scss (card flip, .title, .transparent-*, etc.) |
+| Navegación tipada | Interfaces NavigationState reemplazan `as unknown as` casts |
+| ngOnInit vacíos | Eliminados de 11 páginas junto con imports OnInit |
+| Imports muertos | CardService, ICard eliminados de tarot-diario |
+| Error params | Renombrados a _error (convención no-unused-vars) |
+| !important reducidos | 1 eliminado via mayor especificidad de selector (5 restantes son necesarios por Ionic) |
 
 ---
 
@@ -111,12 +135,10 @@ Las stores rechazaban la app por múltiples problemas. Se optó por PWA desplega
 
 | Tarea | Motivo |
 |-------|--------|
-| CSS duplicado entre páginas | Requiere refactor de estilos compartidos |
 | Responsive para tablets | Solo hay media query para iPhone SE |
 | Tipografía responsiva | Font-sizes hardcodeados (25px, 35px, etc.) |
 | Tests unitarios | Spec files vacíos (auto-generados) |
-| Casts `as unknown as` en navegación | Requiere tipado propio para NavigationState |
-| !important en CSS (6 instancias) | Requiere reestructuración CSS |
+| !important en CSS (5 instancias) | Necesarios por Ionic Shadow DOM y core.css overrides |
 | Backend DEBUG=True | No tenemos acceso al backend |
 | Backend sin rate limiting | No tenemos acceso al backend |
 
@@ -132,13 +154,14 @@ src/
 │   │   ├── zodiac.service.ts
 │   │   └── http-error.interceptor.ts
 │   ├── data/                   # Datos compartidos
-│   │   ├── constants.ts        # Teléfono, WhatsApp, YouTube
+│   │   ├── constants.ts        # URLs, teléfono, WhatsApp, YouTube, regex
 │   │   └── videos.data.ts      # Array de vídeos (deduplicado)
 │   ├── interfaces/             # Tipos TypeScript
 │   │   ├── card.interface.ts
 │   │   ├── horoscope.interface.ts
 │   │   ├── responsegpt.interface.ts
-│   │   └── zodiac.interface.ts
+│   │   ├── zodiac.interface.ts
+│   │   └── navigation-state.interface.ts
 │   └── pages/                  # Páginas de la app
 │       ├── inicio/             # Splash con logo y botón entrar
 │       ├── menu/               # Menú principal (5 opciones)
@@ -172,6 +195,10 @@ Backend externo: https://mariafernandeztarot.app/api (Django)
 ## Commits
 
 ```
+eccf661 refactor: deduplicate CSS, type navigation, extract constants, cleanup dead code
+02c0bde fix: replace Ionic default favicon with app icon
+f13afb7 fix: allow unsafe-inline in CSP script-src for Ionic/Swiper compatibility
+afeb867 feat: SEO, accessibility, install banners, and audit document
 683604a fix: PWA compatibility, SPA routing, and robustness
 b37c86c feat: HTTP interceptor, CSP, accessibility, and robustness improvements
 d9585f1 refactor: cleanup dead code, type safety, and extract constants
