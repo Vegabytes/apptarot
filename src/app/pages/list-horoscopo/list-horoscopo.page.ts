@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
+import { Capacitor } from '@capacitor/core';
 import { Horoscope } from 'src/app/interfaces/horoscope.interface';
 import { Zodiac } from 'src/app/interfaces/zodiac.interface';
 import { ZodiacService } from 'src/app/api/zodiac.service';
@@ -25,6 +26,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
   formattedDate: string = '';
   loadinfo: boolean = true;
   errorMsg = '';
+  isLoading = false;
   readonly phoneNumber = PHONE_NUMBER;
 
   private destroy$ = new Subject<void>();
@@ -48,6 +50,8 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
   }
 
   async initialLoad(){
+    if (this.isLoading) return;
+    this.isLoading = true;
 
     this.errorMsg = '';
     this.loadinfo = true;
@@ -73,10 +77,12 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
           complete: async () => {
             await loading.dismiss();
             this.loadinfo = false;
+            this.isLoading = false;
           },
           error: async (error) => {
             await loading.dismiss();
             this.loadinfo = false;
+            this.isLoading = false;
             this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
           }
         })
@@ -84,6 +90,7 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
       error: async (error) => {
         await loading.dismiss();
         this.loadinfo = false;
+        this.isLoading = false;
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
       }
     })
@@ -137,12 +144,20 @@ export class ListHoroscopoPage implements OnInit, OnDestroy {
 
   async bntShare() {
     try {
-      await Share.share({
-        title: 'Tarot',
-        text: ``,
-        url: 'https://mariafernandeztarot.com/',
-        dialogTitle: 'Compartir'
-      });
+      if (Capacitor.isNativePlatform()) {
+        await Share.share({
+          title: 'Tarot',
+          text: ``,
+          url: 'https://mariafernandeztarot.com/',
+          dialogTitle: 'Compartir'
+        });
+      } else if (navigator.share) {
+        await navigator.share({
+          title: 'Tarot',
+          text: '',
+          url: 'https://mariafernandeztarot.com/',
+        });
+      }
     } catch (error) {
       // Share cancelled by user
     }

@@ -11,7 +11,7 @@ import { catchError, timeout } from 'rxjs/operators';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
       timeout(30000),
       catchError((error: HttpErrorResponse | TimeoutError) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, MenuController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
+import { Capacitor } from '@capacitor/core';
 import { ZodiacService } from 'src/app/api/zodiac.service';
 import { Zodiac } from 'src/app/interfaces/zodiac.interface';
 import { Horoscope, Sign } from 'src/app/interfaces/horoscope.interface';
@@ -25,6 +26,7 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
   sanitizedDescription: SafeHtml = '';
   formattedDate: string = '';
   errorMsg = '';
+  isLoading = false;
 
   private destroy$ = new Subject<void>();
 
@@ -67,6 +69,8 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
   }
 
   async initialLoad(){
+    if (this.isLoading) return;
+    this.isLoading = true;
 
     this.errorMsg = '';
 
@@ -100,16 +104,19 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
           },
           complete: async () => {
             await loading.dismiss();
+            this.isLoading = false;
           },
           error: async (error) => {
             await loading.dismiss();
             this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
+            this.isLoading = false;
           }
         })
       },
       error: async (error) => {
         await loading.dismiss();
         this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
+        this.isLoading = false;
       }
     })
 
@@ -157,12 +164,20 @@ export class TarotHoroscopoPage implements OnInit, OnDestroy {
 
     if(this.horoscopeActive){
       try {
-        await Share.share({
-          title: 'Horoscopo',
-          text: `Signo: ${this.horoscopeActive.zodiacsign.name}, Número: ${this.horoscopeActive.numberhoroscope}, Color: ${this.horoscopeActive.color.name}, Lectura: ${this.horoscopeActive.description}`,
-          url: 'https://mariafernandeztarot.com/',
-          dialogTitle: 'Compartir'
-        });
+        if (Capacitor.isNativePlatform()) {
+          await Share.share({
+            title: 'Horoscopo',
+            text: `Signo: ${this.horoscopeActive.zodiacsign.name}, Número: ${this.horoscopeActive.numberhoroscope}, Color: ${this.horoscopeActive.color.name}, Lectura: ${this.horoscopeActive.description}`,
+            url: 'https://mariafernandeztarot.com/',
+            dialogTitle: 'Compartir'
+          });
+        } else if (navigator.share) {
+          await navigator.share({
+            title: 'Horoscopo',
+            text: `Signo: ${this.horoscopeActive.zodiacsign.name}, Número: ${this.horoscopeActive.numberhoroscope}, Color: ${this.horoscopeActive.color.name}, Lectura: ${this.horoscopeActive.description}`,
+            url: 'https://mariafernandeztarot.com/',
+          });
+        }
       } catch (error) {
         // Share cancelled by user
       }

@@ -88,7 +88,10 @@ export class AppComponent {
         this.applyInsetsToCSS(data.insets);
       });
     } catch (e) {
-      // SafeArea plugin not available on this platform; CSS insets will use defaults
+      document.documentElement.style.setProperty('--safe-area-inset-top', '0px');
+      document.documentElement.style.setProperty('--safe-area-inset-bottom', '0px');
+      document.documentElement.style.setProperty('--safe-area-inset-left', '0px');
+      document.documentElement.style.setProperty('--safe-area-inset-right', '0px');
     }
   }
 
@@ -118,21 +121,39 @@ export class AppComponent {
     if (isAndroid) {
       const appId = 'com.app.tarotiav2'; // Reemplaza con el ID de tu app en Google Play
       const playStoreUrl = `https://play.google.com/store/apps/details?id=${appId}&reviewId=0`;
-      await Browser.open({ url: playStoreUrl });
+      if (Capacitor.isNativePlatform()) {
+        await Browser.open({ url: playStoreUrl });
+      } else {
+        window.open(playStoreUrl, '_blank');
+      }
     } else if (isIOS) {
       const appId = 'id1441553118'; // Reemplaza con el ID de tu app en la App Store
       const appStoreUrl = `itms-apps://apps.apple.com/app/${appId}?action=write-review`;
-      await Browser.open({ url: appStoreUrl });
+      if (Capacitor.isNativePlatform()) {
+        await Browser.open({ url: appStoreUrl });
+      } else {
+        window.open(appStoreUrl, '_blank');
+      }
     } else {
     }
   }
 
   async irWeb() {
-    await Browser.open({ url: 'https://mariafernandeztarot.com/' });
+    const url = 'https://mariafernandeztarot.com/';
+    if (Capacitor.isNativePlatform()) {
+      await Browser.open({ url });
+    } else {
+      window.open(url, '_blank');
+    }
   }
 
   async irPolitica() {
-    await Browser.open({ url: 'https://mariafernandeztarot.com/aviso-legal-y-politica-de-privacidad/' });
+    const url = 'https://mariafernandeztarot.com/aviso-legal-y-politica-de-privacidad/';
+    if (Capacitor.isNativePlatform()) {
+      await Browser.open({ url });
+    } else {
+      window.open(url, '_blank');
+    }
   }
 
   private listenNetwork() {

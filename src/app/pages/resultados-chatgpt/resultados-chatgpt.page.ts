@@ -7,6 +7,7 @@ import { ICard } from 'src/app/interfaces/card.interface';
 import { CardService } from 'src/app/api/card.service';
 import { ResponseYesOrNot } from 'src/app/interfaces/responsegpt.interface';
 import { Browser } from '@capacitor/browser';
+import { Capacitor } from '@capacitor/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { VIDEOS_DINERO, VIDEOS_SALUD, VIDEOS_AMOR, VIDEOS_TRABAJO, VideoItem } from 'src/app/data/videos.data';
@@ -24,6 +25,7 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
   responseConsult: string[] = [];
   loadinfo: boolean = true;
   errorMsg = '';
+  isLoading = false;
   readonly phoneNumber = PHONE_NUMBER;
 
   videos: VideoItem[] = VIDEOS_DINERO;
@@ -65,6 +67,8 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
   }
 
   async initialLoad(){
+    if (this.isLoading) return;
+    this.isLoading = true;
 
     this.errorMsg = '';
     this.loadinfo = true;
@@ -85,15 +89,18 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
         complete: async()=>{
           await loading.dismiss();
           this.loadinfo       = false;
+          this.isLoading = false;
         },
         error: async (error)=>{
           await loading.dismiss();
           this.errorMsg = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
+          this.isLoading = false;
         }
       })
     } else {
       await loading.dismiss();
       this.loadinfo = false;
+      this.isLoading = false;
       this.errorMsg = 'No se han proporcionado los datos necesarios.';
     }
 
@@ -118,12 +125,20 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
 
   async bntShare() {
       try {
-        await Share.share({
-          title: 'Tarot',
-          text: ``,
-          url: 'https://mariafernandeztarot.com/',
-          dialogTitle: 'Compartir'
-        });
+        if (Capacitor.isNativePlatform()) {
+          await Share.share({
+            title: 'Tarot',
+            text: ``,
+            url: 'https://mariafernandeztarot.com/',
+            dialogTitle: 'Compartir'
+          });
+        } else if (navigator.share) {
+          await navigator.share({
+            title: 'Tarot',
+            text: '',
+            url: 'https://mariafernandeztarot.com/',
+          });
+        }
       } catch (error) {
         // Share cancelled by user
       }
@@ -132,7 +147,11 @@ export class ResultadosChatgptPage implements OnInit, OnDestroy {
 
   async openYouTubeVideo(url: string) {
     try {
-      await Browser.open({ url: url });
+      if (Capacitor.isNativePlatform()) {
+        await Browser.open({ url });
+      } else {
+        window.open(url, '_blank');
+      }
     } catch (error) {
       // Failed to open browser
     }

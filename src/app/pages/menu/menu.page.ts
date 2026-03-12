@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Browser } from '@capacitor/browser';
+import { Capacitor } from '@capacitor/core';
 import { YOUTUBE_CHANNEL } from 'src/app/data/constants';
 
 @Component({
@@ -43,7 +44,11 @@ export class MenuPage implements OnInit {
   }
 
   async irRituales() {
-    await Browser.open({ url: YOUTUBE_CHANNEL });
+    if (Capacitor.isNativePlatform()) {
+      await Browser.open({ url: YOUTUBE_CHANNEL });
+    } else {
+      window.open(YOUTUBE_CHANNEL, '_blank');
+    }
   }
 
 }
