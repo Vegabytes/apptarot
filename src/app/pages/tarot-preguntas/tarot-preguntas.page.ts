@@ -95,7 +95,6 @@ export class TarotPreguntasPage implements OnInit {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
-        console.error('Error al compartir contenido:', error);
       }
   }
 

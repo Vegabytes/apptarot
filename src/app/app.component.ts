@@ -70,7 +70,6 @@ export class AppComponent {
     const info = await Device.getInfo();
 
     if (Capacitor.getPlatform() === 'android' && Number(info.osVersion) >= 15) {
-      console.log('Android 15 detectado → Activando EdgeToEdge plugin');
       await EdgeToEdge.enable();
     } else {
       await EdgeToEdge.disable();
@@ -98,7 +97,6 @@ export class AppComponent {
         this.applyInsetsToCSS(data.insets);
       });
     } catch (e) {
-      console.warn('Safe area plugin error:', e);
     }
   }
 
@@ -134,7 +132,6 @@ export class AppComponent {
       const appStoreUrl = `itms-apps://apps.apple.com/app/${appId}?action=write-review`;
       await Browser.open({ url: appStoreUrl });
     } else {
-      console.log("Plataforma no soportada")
     }
   }
 

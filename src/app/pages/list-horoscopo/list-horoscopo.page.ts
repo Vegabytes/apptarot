@@ -48,9 +48,6 @@ export class ListHoroscopoPage implements OnInit {
 
     this.zodiacService.getZodiacSigns().subscribe((response: Zodiac[])=>{
       this.zodiacs = response;
-      console.log("ZODIACSSSSSS")
-      console.log(this.zodiacs)
-      console.log("ZODIACSSSSSS")
       this.loadinfo = false;
 
       this.zodiacService.getHoroscopeAll().subscribe((responseHoroscope: Horoscope[])=>{
@@ -99,9 +96,6 @@ export class ListHoroscopoPage implements OnInit {
     return new Intl.DateTimeFormat('es-ES', options).format(date);
   }
 
-  irDetalleHoroscopo() {
-
-  }
 
   openMenu() {
     this.menuCtrl.open();
@@ -117,7 +111,6 @@ export class ListHoroscopoPage implements OnInit {
         dialogTitle: 'Compartir'
       });
     } catch (error) {
-      console.error('Error al compartir contenido:', error);
     }
   }
 

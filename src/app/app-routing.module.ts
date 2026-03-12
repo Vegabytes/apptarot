@@ -62,8 +62,10 @@ const routes: Routes = [
     path: 'list-horoscopo',
     loadChildren: () => import('./pages/list-horoscopo/list-horoscopo.module').then( m => m.ListHoroscopoPageModule)
   },
-
-
+  {
+    path: '**',
+    redirectTo: 'inicio'
+  },
 ];
 
 @NgModule({

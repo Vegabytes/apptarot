@@ -24,14 +24,11 @@ export class TarotDiarioDetallePage implements OnInit {
   ) {
 
     this.route.queryParams.subscribe(params => {
-      console.log(params)
       if (this.router.getCurrentNavigation()?.extras.state) {
         let state = this.router.getCurrentNavigation()?.extras.state;
 
         if(state){
           this.subject        = state['subject'] as unknown as string;
-          console.log("ESTA ES LA CARTA")
-          console.log(this.subject)
         }
       }
     });
@@ -116,7 +113,6 @@ export class TarotDiarioDetallePage implements OnInit {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
-        console.error('Error al compartir contenido:', error);
       }
   }
 

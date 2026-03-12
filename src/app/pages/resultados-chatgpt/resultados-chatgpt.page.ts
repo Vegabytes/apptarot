@@ -60,17 +60,12 @@ export class ResultadosChatgptPage implements OnInit {
     private cardService: CardService
   ) {
 
-    console.log("acacakk")
-
     this.route.queryParams.subscribe(params => {
-      console.log(params)
       if (this.router.getCurrentNavigation()?.extras.state) {
         let state = this.router.getCurrentNavigation()?.extras.state;
 
         if(state){
           this.card        = state['card'] as unknown as ICard;
-          console.log("ESTA ES LA CARTA")
-          console.log(this.card)
         }
       }
     });
@@ -125,7 +120,6 @@ export class ResultadosChatgptPage implements OnInit {
           dialogTitle: 'Compartir'
         });
       } catch (error) {
-        console.error('Error al compartir contenido:', error);
       }
   }
 
